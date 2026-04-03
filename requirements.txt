@@ -1,0 +1,5 @@
+pyttsx3>=2.90
+Pillow>=9.0.0
+# pygame is optional (for richer sounds in game lessons).
+# Install manually if your Python version is supported:
+#   pip install pygame
