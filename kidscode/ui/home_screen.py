@@ -177,6 +177,15 @@ class HomeScreen(tk.Frame):
             font=('Comic Sans MS', 15), anchor='w', wraplength=600, justify='left',
         ).pack(anchor='w')
 
+        # "With a grown-up" banner for assisted modules
+        if module.get('assisted') and unlocked:
+            tk.Label(
+                info, text='👨\u200d👩\u200d👦 Do this with a grown-up!',
+                bg='#3a2a10', fg='#fbbf24',
+                font=('Comic Sans MS', 13, 'bold'), anchor='w',
+                padx=8, pady=2,
+            ).pack(anchor='w', pady=(4, 0))
+
         # Stars progress
         if total > 0:
             stars_earned = '⭐' * done + '☆' * (total - done)
@@ -493,6 +502,48 @@ class HomeScreen(tk.Frame):
                 command=lambda lid=first_lesson['id']: self._open_lesson(lid),
             )
             btn.pack(expand=True)
+
+        # Expandable lesson list (click row to toggle)
+        if unlocked and len(module.get('lessons', [])) > 0:
+            lessons_frame = tk.Frame(parent, bg='#0d1117')
+            lessons_frame_visible = [False]
+
+            def _toggle_lessons(e=None):
+                if lessons_frame_visible[0]:
+                    lessons_frame.pack_forget()
+                    lessons_frame_visible[0] = False
+                else:
+                    # Pack right after the row
+                    lessons_frame.pack(fill='x', padx=30, pady=(0, 2), after=row)
+                    lessons_frame_visible[0] = True
+
+            for widget in [row, body]:
+                widget.bind('<Button-1>', _toggle_lessons)
+
+            # Build lesson entries
+            for lesson in module.get('lessons', []):
+                lid = lesson['id']
+                is_complete = lid in completed
+                icon = '✅' if is_complete else '📖'
+                fg = '#4ade80' if is_complete else '#ccc'
+
+                l_row = tk.Frame(lessons_frame, bg='#0d1117', padx=24, pady=4, cursor='hand2')
+                l_row.pack(fill='x')
+                tk.Label(
+                    l_row, text=f"  {icon}  {lesson.get('title', lid)}",
+                    bg='#0d1117', fg=fg,
+                    font=('Segoe UI', 11), anchor='w',
+                ).pack(side='left')
+                xp = lesson.get('xp', 0)
+                if xp:
+                    tk.Label(
+                        l_row, text=f"+{xp} XP",
+                        bg='#0d1117', fg='#666',
+                        font=('Segoe UI', 9),
+                    ).pack(side='right', padx=8)
+                l_row.bind('<Button-1>', lambda e, _lid=lid: self._open_lesson(_lid))
+                for child in l_row.winfo_children():
+                    child.bind('<Button-1>', lambda e, _lid=lid: self._open_lesson(_lid))
 
         # Bind hover events to row and body
         for widget in [row, body]:

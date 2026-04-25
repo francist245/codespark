@@ -75,6 +75,17 @@ class LessonViewer(tk.Frame):
             w.destroy()
 
         self._build_header(lesson, profile)
+
+        # "With a grown-up" banner for assisted modules (Joshua M4-M6)
+        if self._is_assisted_lesson(lesson_id, profile):
+            banner = tk.Frame(self, bg='#3a2a10', padx=12, pady=6)
+            banner.pack(fill='x')
+            tk.Label(
+                banner, text='👨\u200d👩\u200d👦 This lesson works best with a grown-up helping you!',
+                bg='#3a2a10', fg='#fbbf24',
+                font=(self._style['font'], 14, 'bold'),
+            ).pack()
+
         self._content_area = tk.Frame(self, bg=self._style['bg'])
         self._content_area.pack(fill='both', expand=True, padx=0, pady=0)
         self._build_footer()
@@ -218,6 +229,9 @@ class LessonViewer(tk.Frame):
         """Clear content area and render current step."""
         for w in self._content_area.winfo_children():
             w.destroy()
+        # Clear persistent hint panel from previous step
+        if hasattr(self, '_hint_panel') and self._hint_panel.winfo_exists():
+            self._hint_panel.destroy()
 
         if self._step_idx >= len(self._steps):
             self._show_completion()
@@ -632,16 +646,25 @@ class LessonViewer(tk.Frame):
         hint = hints[self._hint_idx % len(hints)]
         self._hint_idx += 1
         self.app.audio.speak(f"Hint: {hint}", profile=self.app.current_profile)
-        # Show hint as a floating label — 10 seconds for emergent readers (was 4s)
+
+        # Create persistent hint panel if it doesn't exist yet
         s = self._style
-        hint_label = tk.Label(
-            self, text=f"💡 {hint}",
-            bg='#2a2a1a', fg=s['secondary'],
-            font=(s['font'], 15), padx=16, pady=8,  # raised from 12 → 15pt
-            wraplength=700,
-        )
-        hint_label.place(relx=0.5, rely=0.82, anchor='center')  # raised from 0.9 to clear footer
-        self.after(10000, hint_label.destroy)  # raised from 4000 → 10000ms
+        if not hasattr(self, '_hint_panel') or not self._hint_panel.winfo_exists():
+            self._hint_panel = tk.Frame(self, bg='#2a2a1a', padx=12, pady=6)
+            self._hint_panel.place(relx=0.5, rely=0.78, anchor='center', relwidth=0.7)
+            tk.Label(
+                self._hint_panel, text='💡 Hints',
+                bg='#2a2a1a', fg=s['secondary'],
+                font=(s['font'], 13, 'bold'), anchor='w',
+            ).pack(anchor='w')
+
+        # Add hint as a new line in the panel (accumulates)
+        tk.Label(
+            self._hint_panel, text=f"→ {hint}",
+            bg='#2a2a1a', fg=s['text'],
+            font=(s['font'], 14), anchor='w',
+            wraplength=700, justify='left',
+        ).pack(anchor='w', pady=(2, 0))
 
     def _replay_voice(self):
         """Re-speak the current step's narration (for Joshua's 'Say it again!' button)."""
@@ -656,6 +679,14 @@ class LessonViewer(tk.Frame):
     def _go_home(self):
         self.app.audio.clear_queue()
         self.app.show_screen('home', profile=self.app.current_profile)
+
+    def _is_assisted_lesson(self, lesson_id: str, profile: str) -> bool:
+        """Check if this lesson belongs to a module marked as 'assisted'."""
+        for module in self.app.curriculum.get_modules(profile):
+            for lesson in module.get('lessons', []):
+                if lesson['id'] == lesson_id:
+                    return module.get('assisted', False)
+        return False
 
     # ================================================================
     # Lesson Completion

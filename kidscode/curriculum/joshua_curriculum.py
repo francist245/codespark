@@ -182,11 +182,11 @@ JOSHUA_MODULES = [
                         ),
                         'voice': "A program can have lots of print instructions! Look at this example.",
                         'code': (
-                            'print("★★★★★")\n'
-                            'print("★ Hi! ★")\n'
-                            'print("★★★★★")'
+                            'print("*****")\n'
+                            'print("* Hi! *")\n'
+                            'print("*****")'
                         ),
-                        'expected_output': '★★★★★\n★ Hi! ★\n★★★★★',
+                        'expected_output': '*****\n* Hi! *\n*****',
                     },
                     {
                         'type': 'exercise',
@@ -527,6 +527,7 @@ JOSHUA_MODULES = [
         'title': 'Yes or No? 🤔',
         'icon': '🤔',
         'description': 'Teach your program to make decisions with if and else!',
+        'assisted': True,
         'badge': 'Decision Maker',
         'badge_icon': '🤔',
         'color': '#FFD93D',
@@ -631,6 +632,7 @@ JOSHUA_MODULES = [
         'title': 'Do It Again! 🔄',
         'icon': '🔄',
         'description': 'Make the computer repeat things over and over! 🔄',
+        'assisted': True,
         'badge': 'Loop Master',
         'badge_icon': '🔄',
         'color': '#C3A4E8',
@@ -751,6 +753,7 @@ JOSHUA_MODULES = [
         'title': 'My First Game! 🎮',
         'icon': '🎮',
         'description': "Put it all together and build your first game — a number guessing game!",
+        'assisted': True,
         'badge': 'Game Creator',
         'badge_icon': '🎮',
         'color': '#FF8B8B',
