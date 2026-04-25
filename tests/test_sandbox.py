@@ -383,6 +383,30 @@ print(d.name)
         assert result['success'] is True
         assert 'Rex' in result['output']
 
+    def test_inheritance_with_super_toby(self, toby):
+        """Inheritance with super() works for Toby (needed for M6 OOP)."""
+        code = """\
+class Animal:
+    def __init__(self, name):
+        self.name = name
+    def speak(self):
+        return "..."
+
+class Dog(Animal):
+    def __init__(self, name, breed):
+        super().__init__(name)
+        self.breed = breed
+    def speak(self):
+        return "Woof!"
+
+d = Dog("Rex", "Labrador")
+print(d.name, d.breed, d.speak())
+"""
+        result = toby.run(code)
+        assert result['success'] is True
+        assert 'Rex' in result['output']
+        assert 'Woof!' in result['output']
+
     def test_class_definition_blocked_joshua(self):
         """Class definitions are blocked for Joshua (too advanced for age 5)."""
         runner = SafeCodeRunner(profile='joshua')

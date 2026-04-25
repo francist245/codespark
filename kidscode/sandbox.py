@@ -108,6 +108,12 @@ def _make_safe_builtins(extra_allowed=None, allow_classes=False):
     # Allow class definitions for profiles that need OOP (Toby's M6+)
     if allow_classes:
         safe['__build_class__'] = __builtins__['__build_class__'] if isinstance(__builtins__, dict) else getattr(__builtins__, '__build_class__')
+        safe['super'] = super
+        safe['property'] = property
+        safe['staticmethod'] = staticmethod
+        safe['classmethod'] = classmethod
+        safe['getattr'] = getattr
+        safe['setattr'] = setattr
     return safe
 
 
