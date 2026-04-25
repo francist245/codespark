@@ -3,16 +3,16 @@ Toby's Curriculum - Age 10
 
 11 Modules from Python basics through to Game Development:
   M1:  Python Foundations      - Variables, types, I/O, maths, f-strings       (fully built)
-  M2:  Making Decisions        - if/elif/else, comparison & logical operators   (fully built)
+  M2:  Making Decisions        - if/elif/else, nested conditionals, logic       (fully built)
   M3:  Loops                   - for, while, range, break/continue              (fully built)
   M4:  Functions               - def, parameters, return, scope                 (fully built)
   M5:  Data Structures         - list, dict, tuple, set                         (fully built)
-  M6:  Object-Oriented Python  - classes, init, self, inheritance               (stub)
+  M6:  Object-Oriented Python  - classes, init, self, inheritance, OOP project  (fully built)
   M7:  Files & Exceptions      - file I/O, try/except, modules                  (stub)
   M8:  Networking Basics       - internet, HTTP, APIs (conceptual + requests)   (stub)
   M9:  Azure Fundamentals      - Cloud, Azure services, deploying (conceptual)  (stub)
   M10: Introduction to AI/ML   - What is AI, data, ML concepts, ethics          (stub)
-  M11: Game Development        - pygame, game loop, Pong, Platform, Tetris      (stub)
+  M11: Game Development        - text-based games, ASCII art, dungeon crawler   (fully built)
 """
 
 # ---------------------------------------------------------------------------
@@ -547,6 +547,177 @@ TOBY_MODULES = [
                     },
                 ],
             },
+
+            # ---- Lesson 2: Nested Conditionals & Project ----
+            {
+                'id': 't_m2_l2',
+                'title': 'Nested if & Complex Logic',
+                'icon': '🧩',
+                'xp': 150,
+                'steps': [
+                    {
+                        'type': 'story',
+                        'title': 'Mission: Logic Architect 🧠',
+                        'content': (
+                            "Agent Toby — time to level up your logic.\n\n"
+                            "Real software makes LAYERS of decisions:\n"
+                            "  A sat-nav checks the road, then traffic, then weather.\n"
+                            "  A game checks your health, your inventory, AND the enemy.\n\n"
+                            "This is called NESTED logic — decisions inside decisions.\n"
+                            "Master this and you can build anything. 🏗️"
+                        ),
+                        'voice': (
+                            "Agent Toby, time to level up your logic. "
+                            "Real software makes layers of decisions — nested logic. "
+                            "Master this and you can build anything!"
+                        ),
+                    },
+                    {
+                        'type': 'teach',
+                        'title': 'Nested if & Complex Conditions',
+                        'content': (
+                            "Nested if — an if inside another if:\n\n"
+                            "    if has_ticket:\n"
+                            "        if age >= 18:\n"
+                            "            print('Welcome to the film!')\n"
+                            "        else:\n"
+                            "            print('Sorry, 18+ only.')\n"
+                            "    else:\n"
+                            "        print('Buy a ticket first!')\n\n"
+                            "Guard clauses — check edge cases first:\n\n"
+                            "    if not username:\n"
+                            "        print('Error: no username')\n"
+                            "    elif len(username) < 3:\n"
+                            "        print('Username too short')\n"
+                            "    else:\n"
+                            "        print(f'Welcome, {username}!')\n\n"
+                            "Combining conditions:\n"
+                            "    if temp > 30 and humidity > 80:\n"
+                            "        print('Tropical!')\n\n"
+                            "Truthiness — these are 'falsy' in Python:\n"
+                            "    False, 0, '', [], {}, None\n"
+                            "Everything else is 'truthy'."
+                        ),
+                        'voice': (
+                            "Nested if means putting an if inside another if — decisions within decisions. "
+                            "Guard clauses check edge cases first so the main logic stays clean. "
+                            "You can combine conditions with and, or, and not. "
+                            "Python also has truthiness — zero, empty strings, and empty lists count as false."
+                        ),
+                    },
+                    {
+                        'type': 'example',
+                        'title': 'Temperature Advisor',
+                        'content': 'A weather advisor with nested conditions for temperature, rain and wind:',
+                        'voice': 'Here is a temperature advisor with nested conditions for weather.',
+                        'code': (
+                            'temp = 22\n'
+                            'raining = True\n'
+                            'wind_speed = 35\n'
+                            '\n'
+                            'if temp < 10:\n'
+                            '    advice = "Cold! Wear a coat. 🧥"\n'
+                            '    if raining:\n'
+                            '        advice += " And grab an umbrella! ☂️"\n'
+                            '    if wind_speed > 40:\n'
+                            '        advice += " Watch out — it is windy! 💨"\n'
+                            'elif temp < 25:\n'
+                            '    advice = "Nice and warm. 😎"\n'
+                            '    if raining:\n'
+                            '        advice += " Light rain — maybe a jacket."\n'
+                            '    if wind_speed > 30:\n'
+                            '        advice += " A bit breezy today!"\n'
+                            'else:\n'
+                            '    advice = "Hot! Stay hydrated! 🥤"\n'
+                            '    if raining:\n'
+                            '        advice += " Warm rain — unusual!"\n'
+                            '\n'
+                            'print(f"Temperature: {temp}°C")\n'
+                            'print(f"Raining: {raining}")\n'
+                            'print(f"Wind: {wind_speed} mph")\n'
+                            'print(f"Advice: {advice}")'
+                        ),
+                        'expected_output': None,
+                    },
+                    {
+                        'type': 'exercise',
+                        'title': 'Adventure Game Decision Tree 🗺️',
+                        'content': (
+                            "Build a text adventure with nested decisions!\n\n"
+                            "The player explores a dungeon and faces choices:\n"
+                            "  1. Choose a path (left, right, or straight)\n"
+                            "  2. Each path has a sub-choice\n"
+                            "  3. Each combination gives a different outcome\n\n"
+                            "Complete the branches marked with TODO comments."
+                        ),
+                        'voice': (
+                            "Build a text adventure with nested decisions! "
+                            "The player chooses a path, then faces a sub-choice. "
+                            "Complete all the branches to finish the adventure!"
+                        ),
+                        'starter_code': (
+                            'import random\n'
+                            '\n'
+                            'print("=== DUNGEON ADVENTURE ===")\n'
+                            'print("You enter a dark dungeon...")\n'
+                            'print("Three tunnels stretch ahead.")\n'
+                            '\n'
+                            'path = random.choice(["left", "right", "straight"])\n'
+                            'has_torch = random.choice([True, False])\n'
+                            'print(f"\\nYou go {path}. Torch: {has_torch}")\n'
+                            '\n'
+                            'if path == "left":\n'
+                            '    print("You find a treasure chest!")\n'
+                            '    if has_torch:\n'
+                            '        print("Your torch reveals it is REAL gold! 💰")\n'
+                            '        print("You win 100 coins!")\n'
+                            '    else:\n'
+                            '        print("It is too dark to see inside...")\n'
+                            '        print("You take a handful and hope for the best.")\n'
+                            '\n'
+                            'elif path == "right":\n'
+                            '    # TODO: A monster blocks the way!\n'
+                            '    # If has_torch, you scare it away and find a secret door\n'
+                            '    # If no torch, you must sneak past (50/50 chance with random)\n'
+                            '    pass\n'
+                            '\n'
+                            'else:  # straight\n'
+                            '    # TODO: You find a locked door with a riddle\n'
+                            '    # Pick a random number 1-3 as the answer\n'
+                            '    # If the number is 1, you solve it and escape\n'
+                            '    # Otherwise, a trapdoor opens!\n'
+                            '    # If has_torch, you see the trapdoor and dodge it\n'
+                            '    # If no torch, you fall but survive\n'
+                            '    pass\n'
+                            '\n'
+                            'print("\\n=== ADVENTURE COMPLETE ===")'
+                        ),
+                        'expected_output': None,
+                        'hints': [
+                            'Replace pass with your if/else blocks',
+                            'Use random.choice([True, False]) for a 50/50 chance',
+                            'Nest an if inside the else for the trapdoor scenario',
+                        ],
+                    },
+                    {
+                        'type': 'quiz',
+                        'title': 'Logic Quiz',
+                        'question': 'What does  not (True and False)  evaluate to?',
+                        'voice': 'Quiz! What does not, open bracket, True and False, close bracket, evaluate to?',
+                        'options': ['True', 'False', 'None', 'Error'],
+                        'answer': 0,
+                        'explanation': (
+                            'True and False = False. '
+                            'not False = True. '
+                            'The not operator flips the result!'
+                        ),
+                        'explanation_voice': (
+                            'True and False gives False. Then not False gives True. '
+                            'The not operator flips the result!'
+                        ),
+                    },
+                ],
+            },
         ],
     },
 
@@ -829,7 +1000,7 @@ TOBY_MODULES = [
     },
 
     # ================================================================
-    # MODULES 4-11: M4 and M5 now fully built; M6-M11 remain stubs
+    # MODULES 4-11: M4, M5, M6, M11 fully built; M7-M10 remain stubs
     # ================================================================
 
     # ================================================================
@@ -1530,33 +1701,699 @@ TOBY_MODULES = [
                     },
                 ],
             },
+
+            # ---- Lesson 3: Tuples & Sets ----
+            {
+                'id': 't_m5_l3',
+                'title': 'Tuples & Sets',
+                'icon': '🔒',
+                'xp': 125,
+                'steps': [
+                    {
+                        'type': 'teach',
+                        'title': 'Tuples — Immutable Sequences',
+                        'content': (
+                            "A tuple is like a list, but you CANNOT change it after creation.\n\n"
+                            "    coordinates = (51.5, -0.1)   # London lat/long\n"
+                            "    rgb_red     = (255, 0, 0)\n"
+                            "    single      = (42,)          # note the trailing comma!\n\n"
+                            "Accessing works just like lists:\n"
+                            "    coordinates[0]   → 51.5\n"
+                            "    coordinates[-1]  → -0.1\n\n"
+                            "Unpacking — assign each element to a variable:\n"
+                            "    lat, lon = coordinates\n"
+                            "    r, g, b  = rgb_red\n\n"
+                            "Why tuples?\n"
+                            "  • Faster than lists\n"
+                            "  • Safe — nobody can accidentally change them\n"
+                            "  • Can be used as dictionary keys (lists cannot!)"
+                        ),
+                        'voice': (
+                            "A tuple is like a list you cannot change. "
+                            "Create them with round brackets. "
+                            "You can unpack tuples into variables. "
+                            "Tuples are faster, safer, and can be used as dictionary keys."
+                        ),
+                    },
+                    {
+                        'type': 'teach',
+                        'title': 'Sets — Unique Elements',
+                        'content': (
+                            "A set stores UNIQUE items only — no duplicates!\n\n"
+                            "    colours = {'red', 'blue', 'green', 'red'}\n"
+                            "    print(colours)   → {'red', 'blue', 'green'}\n\n"
+                            "Set operations — like a Venn diagram:\n"
+                            "    a = {1, 2, 3, 4}\n"
+                            "    b = {3, 4, 5, 6}\n\n"
+                            "    a | b   → {1,2,3,4,5,6}  (union — everything)\n"
+                            "    a & b   → {3, 4}          (intersection — in both)\n"
+                            "    a - b   → {1, 2}          (difference — in a not b)\n\n"
+                            "Useful methods:\n"
+                            "    colours.add('purple')     # add one item\n"
+                            "    colours.discard('red')    # remove (no error if missing)\n"
+                            "    'blue' in colours         # membership check (very fast!)"
+                        ),
+                        'voice': (
+                            "A set stores unique items only — no duplicates allowed. "
+                            "Sets support powerful operations like union, intersection, and difference. "
+                            "Think of them like Venn diagrams. "
+                            "Membership checks with in are super fast on sets."
+                        ),
+                    },
+                    {
+                        'type': 'example',
+                        'title': 'Set Operations in Action',
+                        'content': 'Finding common and unique elements between two groups:',
+                        'voice': 'Here is how set operations find common and unique elements.',
+                        'code': (
+                            'football = {"Alice", "Bob", "Charlie", "Diana", "Eve"}\n'
+                            'chess    = {"Bob", "Diana", "Frank", "Grace"}\n'
+                            '\n'
+                            '# Who plays BOTH sports?\n'
+                            'both = football & chess\n'
+                            'print(f"Both clubs: {both}")\n'
+                            '\n'
+                            '# Who plays ANY sport?\n'
+                            'any_sport = football | chess\n'
+                            'print(f"All members: {any_sport}")\n'
+                            '\n'
+                            '# Football ONLY (not in chess)\n'
+                            'football_only = football - chess\n'
+                            'print(f"Football only: {football_only}")\n'
+                            '\n'
+                            '# Chess ONLY (not in football)\n'
+                            'chess_only = chess - football\n'
+                            'print(f"Chess only: {chess_only}")\n'
+                            '\n'
+                            'print(f"Total unique members: {len(any_sport)}")'
+                        ),
+                        'expected_output': None,
+                    },
+                    {
+                        'type': 'exercise',
+                        'title': 'Student Clubs Analyser 🏫',
+                        'content': (
+                            "The school has three clubs. Use sets to answer questions:\n\n"
+                            "  1. Who is in ALL three clubs?\n"
+                            "  2. Who is in coding but NOT art?\n"
+                            "  3. How many UNIQUE students are there in total?\n"
+                            "  4. Who is in exactly one club? (tricky!)"
+                        ),
+                        'voice': (
+                            "Analyse three school clubs using set operations! "
+                            "Find who is in all three, who is only in one, "
+                            "and how many unique students there are in total."
+                        ),
+                        'starter_code': (
+                            'coding_club = {"Alice", "Bob", "Charlie", "Diana", "Eve"}\n'
+                            'art_club    = {"Bob", "Diana", "Frank", "Grace", "Eve"}\n'
+                            'sport_club  = {"Charlie", "Diana", "Eve", "Henry", "Grace"}\n'
+                            '\n'
+                            '# TODO 1: Find students in ALL three clubs\n'
+                            '# Hint: use & to intersect all three sets\n'
+                            'all_three = coding_club  # fix this!\n'
+                            'print(f"In all three clubs: {all_three}")\n'
+                            '\n'
+                            '# TODO 2: Find students in coding but NOT art\n'
+                            'coding_not_art = coding_club  # fix this!\n'
+                            'print(f"Coding but not art: {coding_not_art}")\n'
+                            '\n'
+                            '# TODO 3: Find total unique students across all clubs\n'
+                            'all_students = coding_club  # fix this!\n'
+                            'print(f"Total unique students: {len(all_students)}")\n'
+                            '\n'
+                            '# TODO 4 (CHALLENGE): Find students in exactly one club\n'
+                            '# Hint: a student is in exactly one club if they are in\n'
+                            '# the total set but NOT in any pair\'s intersection\n'
+                            'in_multiple = (coding_club & art_club) | (coding_club & sport_club) | (art_club & sport_club)\n'
+                            'exactly_one = all_students - in_multiple  # uses your answer from TODO 3\n'
+                            'print(f"In exactly one club: {exactly_one}")'
+                        ),
+                        'expected_output': None,
+                        'hints': [
+                            'All three: coding_club & art_club & sport_club',
+                            'Coding not art: coding_club - art_club',
+                            'All students: coding_club | art_club | sport_club',
+                        ],
+                    },
+                    {
+                        'type': 'quiz',
+                        'title': 'Tuples Quiz',
+                        'question': 'Can you change a value in a tuple after creating it?',
+                        'voice': 'Quiz! Can you change a value in a tuple after creating it?',
+                        'options': [
+                            'Yes, with indexing like a list',
+                            'No — tuples are immutable',
+                            'Only if the tuple has one element',
+                            'Yes, but only with .update()',
+                        ],
+                        'answer': 1,
+                        'explanation': (
+                            'Tuples are immutable — once created, their values cannot be changed. '
+                            'This is what makes them safe and usable as dictionary keys.'
+                        ),
+                        'explanation_voice': (
+                            'Correct! Tuples are immutable — you cannot change them after creation. '
+                            'That is what makes them safe and perfect for dictionary keys!'
+                        ),
+                    },
+                ],
+            },
         ],
     },
 
-    _stub_module(
-        't_m6', 'Object-Oriented Python 🏗️', '🏗️',
-        'Model real-world things with classes, objects and inheritance.',
-        'OOP Master', '🏗️', '#00CEC9',
-        ['t_m1', 't_m2', 't_m3', 't_m4', 't_m5'],
-        (
-            "Object-Oriented Programming (OOP) lets you model real-world things:\n\n"
-            "    class Dog:\n"
-            "        def __init__(self, name, breed):\n"
-            "            self.name = name\n"
-            "            self.breed = breed\n"
-            "        def bark(self):\n"
-            '            print(f"{self.name} says: Woof!")\n\n'
-            "    rex = Dog('Rex', 'Labrador')\n"
-            "    rex.bark()   # Rex says: Woof!"
-        ),
-        (
-            "Object-Oriented Programming lets you model real-world things as objects. "
-            "A class is like a blueprint. An object is a specific instance. "
-            "This module is coming soon — it will be amazing!"
-        ),
-        ['Classes and objects', '__init__ and self', 'Methods and attributes',
-         'Inheritance', 'Encapsulation', 'Building a text-based game with OOP']
-    ),
+    # ================================================================
+    # MODULE 6: Object-Oriented Python
+    # ================================================================
+    {
+        'id': 't_m6',
+        'title': 'Object-Oriented Python 🏗️',
+        'icon': '🏗️',
+        'description': 'Model real-world things with classes, objects and inheritance.',
+        'badge': 'OOP Master',
+        'badge_icon': '🏗️',
+        'color': '#00CEC9',
+        'prerequisite_modules': ['t_m1', 't_m2', 't_m3', 't_m4', 't_m5'],
+        'lessons': [
+            # ---- Lesson 1: Classes & Objects ----
+            {
+                'id': 't_m6_l1',
+                'title': 'Classes & Objects',
+                'icon': '🏗️',
+                'xp': 150,
+                'steps': [
+                    {
+                        'type': 'story',
+                        'title': 'Mission: Object Architect 🏗️',
+                        'content': (
+                            "Agent Toby — welcome to a MASSIVE level up.\n\n"
+                            "Everything in the real world is an OBJECT:\n"
+                            "  A car has properties (colour, speed) and actions (drive, brake).\n"
+                            "  A player has stats (health, score) and abilities (attack, heal).\n\n"
+                            "A CLASS is the blueprint. An OBJECT is the thing you build from it.\n"
+                            "One blueprint → unlimited objects.\n\n"
+                            "This is how professional developers build BIG software. 🚀"
+                        ),
+                        'voice': (
+                            "Agent Toby — everything in the real world is an object. "
+                            "A class is the blueprint, an object is what you build from it. "
+                            "This is how professional developers build big software!"
+                        ),
+                    },
+                    {
+                        'type': 'teach',
+                        'title': 'Class Syntax: __init__, self, Methods',
+                        'content': (
+                            "Define a class with the class keyword:\n\n"
+                            "    class Player:\n"
+                            "        def __init__(self, name, health):\n"
+                            "            self.name = name\n"
+                            "            self.health = health\n\n"
+                            "        def take_damage(self, amount):\n"
+                            "            self.health -= amount\n\n"
+                            "        def is_alive(self):\n"
+                            "            return self.health > 0\n\n"
+                            "Key concepts:\n"
+                            "  class     — defines the blueprint\n"
+                            "  __init__  — runs when you create an object (constructor)\n"
+                            "  self      — refers to THIS specific object\n"
+                            "  attributes — variables on self (self.name, self.health)\n"
+                            "  methods   — functions inside the class\n\n"
+                            "Creating objects:\n"
+                            "    p1 = Player('Toby', 100)\n"
+                            "    p2 = Player('Bot', 80)\n"
+                            "    p1.take_damage(25)\n"
+                            "    print(p1.health)   # 75"
+                        ),
+                        'voice': (
+                            "Define a class with the class keyword. "
+                            "The init method runs when you create an object — it sets up the attributes. "
+                            "Self refers to this specific object. "
+                            "Methods are functions inside the class. "
+                            "Create objects by calling the class like a function."
+                        ),
+                    },
+                    {
+                        'type': 'example',
+                        'title': 'Player Class',
+                        'content': 'A Player class with name, health and attack power:',
+                        'voice': 'Here is a Player class with health and attack methods.',
+                        'code': (
+                            'class Player:\n'
+                            '    def __init__(self, name, health, attack_power):\n'
+                            '        self.name = name\n'
+                            '        self.health = health\n'
+                            '        self.attack_power = attack_power\n'
+                            '        self.score = 0\n'
+                            '\n'
+                            '    def attack(self, target):\n'
+                            '        target.health -= self.attack_power\n'
+                            '        print(f"{self.name} hits {target.name} for {self.attack_power} damage!")\n'
+                            '\n'
+                            '    def is_alive(self):\n'
+                            '        return self.health > 0\n'
+                            '\n'
+                            '    def status(self):\n'
+                            '        state = "ALIVE" if self.is_alive() else "DEFEATED"\n'
+                            '        print(f"{self.name}: {self.health} HP [{state}]")\n'
+                            '\n'
+                            '# Create two players\n'
+                            'hero = Player("Toby", 100, 25)\n'
+                            'enemy = Player("Goblin", 60, 15)\n'
+                            '\n'
+                            '# Battle!\n'
+                            'hero.attack(enemy)\n'
+                            'enemy.attack(hero)\n'
+                            'hero.attack(enemy)\n'
+                            'hero.attack(enemy)\n'
+                            '\n'
+                            'hero.status()\n'
+                            'enemy.status()'
+                        ),
+                        'expected_output': None,
+                    },
+                    {
+                        'type': 'exercise',
+                        'title': 'Build a BankAccount Class 🏦',
+                        'content': (
+                            "Create a BankAccount class with:\n\n"
+                            "  • __init__: owner name and starting balance\n"
+                            "  • deposit(amount): add money, print new balance\n"
+                            "  • withdraw(amount): remove money (if enough!)\n"
+                            "  • summary(): print owner and balance\n\n"
+                            "Complete the methods marked with TODO."
+                        ),
+                        'voice': (
+                            "Build a BankAccount class with deposit and withdraw methods! "
+                            "Make sure you cannot withdraw more than the balance."
+                        ),
+                        'starter_code': (
+                            'class BankAccount:\n'
+                            '    def __init__(self, owner, balance=0):\n'
+                            '        self.owner = owner\n'
+                            '        self.balance = balance\n'
+                            '\n'
+                            '    def deposit(self, amount):\n'
+                            '        # TODO: Add amount to self.balance\n'
+                            '        # Print f"{owner} deposited £{amount}. Balance: £{balance}"\n'
+                            '        pass\n'
+                            '\n'
+                            '    def withdraw(self, amount):\n'
+                            '        # TODO: If amount > balance, print "Insufficient funds!"\n'
+                            '        # Otherwise subtract amount and print the new balance\n'
+                            '        pass\n'
+                            '\n'
+                            '    def summary(self):\n'
+                            '        # TODO: Print f"Account: {owner} | Balance: £{balance}"\n'
+                            '        pass\n'
+                            '\n'
+                            '# Test your class:\n'
+                            'acc = BankAccount("Toby", 100)\n'
+                            'acc.summary()\n'
+                            'acc.deposit(50)\n'
+                            'acc.withdraw(30)\n'
+                            'acc.withdraw(200)\n'
+                            'acc.summary()'
+                        ),
+                        'expected_output': None,
+                        'hints': [
+                            'self.balance += amount for deposit',
+                            'Check if amount > self.balance before withdrawing',
+                            'Use f-strings with self.owner and self.balance',
+                        ],
+                    },
+                    {
+                        'type': 'quiz',
+                        'title': 'OOP Quiz',
+                        'question': 'What is "self" in a Python class?',
+                        'voice': 'Quiz! What is self in a Python class?',
+                        'options': [
+                            'A built-in function',
+                            'A reference to the current object instance',
+                            'The name of the class',
+                            'A keyword that creates a new object',
+                        ],
+                        'answer': 1,
+                        'explanation': (
+                            'self refers to the specific object that called the method. '
+                            'It lets each object access its own attributes and methods.'
+                        ),
+                        'explanation_voice': (
+                            'Correct! Self refers to the specific object that called the method. '
+                            'That is how each object keeps track of its own data!'
+                        ),
+                    },
+                ],
+            },
+
+            # ---- Lesson 2: Inheritance & Polymorphism ----
+            {
+                'id': 't_m6_l2',
+                'title': 'Inheritance & Polymorphism',
+                'icon': '🧬',
+                'xp': 150,
+                'steps': [
+                    {
+                        'type': 'teach',
+                        'title': 'Inheritance: Parent & Child Classes',
+                        'content': (
+                            "Inheritance lets a class REUSE code from another class.\n\n"
+                            "    class Animal:              # parent class\n"
+                            "        def __init__(self, name):\n"
+                            "            self.name = name\n"
+                            "        def speak(self):\n"
+                            "            return '...'\n\n"
+                            "    class Dog(Animal):         # child — inherits from Animal\n"
+                            "        def speak(self):       # override the parent method\n"
+                            '            return f"{self.name} says: Woof!"\n\n'
+                            "Key ideas:\n"
+                            "  • Child class inherits ALL attributes and methods from parent\n"
+                            "  • Child can OVERRIDE methods to change behaviour\n"
+                            "  • super() calls the parent's version of a method\n"
+                            "  • Polymorphism = different classes, same method name,\n"
+                            "    different behaviour"
+                        ),
+                        'voice': (
+                            "Inheritance lets a child class reuse code from a parent class. "
+                            "The child inherits all attributes and methods, "
+                            "and can override them to change behaviour. "
+                            "Super calls the parent version. "
+                            "Polymorphism means same method name, different behaviour."
+                        ),
+                    },
+                    {
+                        'type': 'example',
+                        'title': 'Animal Hierarchy',
+                        'content': 'An Animal parent class with Dog and Cat subclasses:',
+                        'voice': 'Here is an Animal class with Dog and Cat subclasses that override speak.',
+                        'code': (
+                            'class Animal:\n'
+                            '    def __init__(self, name, species):\n'
+                            '        self.name = name\n'
+                            '        self.species = species\n'
+                            '\n'
+                            '    def speak(self):\n'
+                            '        return f"{self.name} says: ..."\n'
+                            '\n'
+                            '    def info(self):\n'
+                            '        return f"{self.name} is a {self.species}"\n'
+                            '\n'
+                            'class Dog(Animal):\n'
+                            '    def __init__(self, name, breed):\n'
+                            '        super().__init__(name, "Dog")\n'
+                            '        self.breed = breed\n'
+                            '\n'
+                            '    def speak(self):\n'
+                            '        return f"{self.name} says: Woof! 🐕"\n'
+                            '\n'
+                            'class Cat(Animal):\n'
+                            '    def __init__(self, name, indoor=True):\n'
+                            '        super().__init__(name, "Cat")\n'
+                            '        self.indoor = indoor\n'
+                            '\n'
+                            '    def speak(self):\n'
+                            '        return f"{self.name} says: Meow! 🐱"\n'
+                            '\n'
+                            '# Polymorphism in action\n'
+                            'pets = [Dog("Rex", "Labrador"), Cat("Whiskers"), Dog("Max", "Poodle")]\n'
+                            'for pet in pets:\n'
+                            '    print(pet.info())\n'
+                            '    print(pet.speak())\n'
+                            '    print()'
+                        ),
+                        'expected_output': None,
+                    },
+                    {
+                        'type': 'exercise',
+                        'title': 'Shape Hierarchy 📐',
+                        'content': (
+                            "Build a shape class hierarchy:\n\n"
+                            "  Shape (parent) — has a name, an area() method returning 0\n"
+                            "  Circle(Shape)  — radius, area = π × r²\n"
+                            "  Rectangle(Shape) — width & height, area = w × h\n\n"
+                            "Complete the child classes and test them!"
+                        ),
+                        'voice': (
+                            "Build a Shape hierarchy! Create Circle and Rectangle "
+                            "subclasses that override the area method."
+                        ),
+                        'starter_code': (
+                            'import math\n'
+                            '\n'
+                            'class Shape:\n'
+                            '    def __init__(self, name):\n'
+                            '        self.name = name\n'
+                            '\n'
+                            '    def area(self):\n'
+                            '        return 0\n'
+                            '\n'
+                            '    def describe(self):\n'
+                            '        print(f"{self.name}: area = {self.area():.2f}")\n'
+                            '\n'
+                            'class Circle(Shape):\n'
+                            '    def __init__(self, radius):\n'
+                            '        super().__init__("Circle")\n'
+                            '        # TODO: store the radius\n'
+                            '\n'
+                            '    def area(self):\n'
+                            '        # TODO: return math.pi * self.radius ** 2\n'
+                            '        return 0\n'
+                            '\n'
+                            'class Rectangle(Shape):\n'
+                            '    def __init__(self, width, height):\n'
+                            '        super().__init__("Rectangle")\n'
+                            '        # TODO: store width and height\n'
+                            '\n'
+                            '    def area(self):\n'
+                            '        # TODO: return self.width * self.height\n'
+                            '        return 0\n'
+                            '\n'
+                            '# Test your shapes\n'
+                            'shapes = [Circle(5), Rectangle(4, 7), Circle(10)]\n'
+                            'for shape in shapes:\n'
+                            '    shape.describe()'
+                        ),
+                        'expected_output': None,
+                        'hints': [
+                            'Store radius: self.radius = radius',
+                            'Circle area: math.pi * self.radius ** 2',
+                            'Rectangle area: self.width * self.height',
+                        ],
+                    },
+                    {
+                        'type': 'quiz',
+                        'title': 'Inheritance Quiz',
+                        'question': 'What keyword in the class definition makes one class inherit from another?',
+                        'voice': 'Quiz! What keyword makes a class inherit from another?',
+                        'options': [
+                            'extends',
+                            'inherits',
+                            'Parentheses after the class name — e.g. class Dog(Animal)',
+                            'the super keyword',
+                        ],
+                        'answer': 2,
+                        'explanation': (
+                            'In Python, you put the parent class in parentheses: class Dog(Animal). '
+                            'There is no extends or inherits keyword. '
+                            'super() is used inside methods to call the parent version.'
+                        ),
+                        'explanation_voice': (
+                            'Correct! In Python, you put the parent class in brackets — '
+                            'class Dog bracket Animal. Super is used inside methods to call the parent version.'
+                        ),
+                    },
+                ],
+            },
+
+            # ---- Lesson 3: OOP Project — Text RPG ----
+            {
+                'id': 't_m6_l3',
+                'title': 'OOP Project: Text RPG',
+                'icon': '⚔️',
+                'xp': 200,
+                'steps': [
+                    {
+                        'type': 'story',
+                        'title': 'Final Mission: Build an RPG ⚔️',
+                        'content': (
+                            "Agent Toby — this is the BIG one.\n\n"
+                            "You are going to build a TEXT-BASED RPG using everything\n"
+                            "you have learned about classes, inheritance, and methods.\n\n"
+                            "Your game will have:\n"
+                            "  ⚔️  Characters with health and attack\n"
+                            "  👹  Monsters to fight\n"
+                            "  🎒  Items to collect and use\n\n"
+                            "This is how real game developers work —\n"
+                            "every object in a game is a class! 🎮"
+                        ),
+                        'voice': (
+                            "Agent Toby, this is the big one! "
+                            "Build a text RPG with characters, monsters, and items. "
+                            "Every object in a game is a class — this is how real developers work!"
+                        ),
+                    },
+                    {
+                        'type': 'teach',
+                        'title': 'Composing Objects & Game Loops',
+                        'content': (
+                            "In a real game, objects CONTAIN other objects:\n\n"
+                            "    class Character:\n"
+                            "        def __init__(self, name):\n"
+                            "            self.inventory = []    # list of Item objects!\n\n"
+                            "    class Item:\n"
+                            "        def __init__(self, name, power):\n"
+                            "            self.name = name\n"
+                            "            self.power = power\n\n"
+                            "The game loop pattern:\n"
+                            "    1. Show the current state (player HP, location)\n"
+                            "    2. Get player input (what do they want to do?)\n"
+                            "    3. Update the game state (fight, move, use item)\n"
+                            "    4. Check for win/lose conditions\n"
+                            "    5. Repeat!\n\n"
+                            "This loop runs until the game ends."
+                        ),
+                        'voice': (
+                            "In a real game, objects contain other objects — a character has an inventory of items. "
+                            "The game loop shows state, gets input, updates the game, and checks for win or lose. "
+                            "This loop repeats until the game ends."
+                        ),
+                    },
+                    {
+                        'type': 'exercise',
+                        'title': 'Build Your Text RPG ⚔️',
+                        'content': (
+                            "Complete this text RPG! The starter code gives you:\n"
+                            "  • An Item class\n"
+                            "  • A Character class with inventory\n"
+                            "  • A Monster class\n\n"
+                            "Your job:\n"
+                            "  1. Add the attack() method to Character\n"
+                            "  2. Add the use_item() method to Character\n"
+                            "  3. Complete the battle sequence\n\n"
+                            "Make it epic! 🏆"
+                        ),
+                        'voice': (
+                            "Complete this text RPG! Add the attack and use item methods, "
+                            "then finish the battle sequence. Make it epic!"
+                        ),
+                        'starter_code': (
+                            'import random\n'
+                            '\n'
+                            'class Item:\n'
+                            '    def __init__(self, name, item_type, power):\n'
+                            '        self.name = name\n'
+                            '        self.item_type = item_type  # "weapon" or "heal"\n'
+                            '        self.power = power\n'
+                            '\n'
+                            '    def __repr__(self):\n'
+                            '        return f"{self.name} ({self.item_type}: +{self.power})"\n'
+                            '\n'
+                            'class Character:\n'
+                            '    def __init__(self, name, health, base_attack):\n'
+                            '        self.name = name\n'
+                            '        self.health = health\n'
+                            '        self.max_health = health\n'
+                            '        self.base_attack = base_attack\n'
+                            '        self.inventory = []\n'
+                            '\n'
+                            '    def is_alive(self):\n'
+                            '        return self.health > 0\n'
+                            '\n'
+                            '    def pick_up(self, item):\n'
+                            '        self.inventory.append(item)\n'
+                            '        print(f"{self.name} picked up {item.name}!")\n'
+                            '\n'
+                            '    def attack(self, target):\n'
+                            '        # TODO: Calculate damage = base_attack + random.randint(0, 10)\n'
+                            '        # Subtract damage from target.health\n'
+                            '        # Print who attacked whom and for how much damage\n'
+                            '        pass\n'
+                            '\n'
+                            '    def use_item(self, item_name):\n'
+                            '        # TODO: Find the item in self.inventory by name\n'
+                            '        # If item_type is "heal": add power to health (max = max_health)\n'
+                            '        # If item_type is "weapon": add power to base_attack\n'
+                            '        # Remove the item from inventory after use\n'
+                            '        # Print what happened\n'
+                            '        pass\n'
+                            '\n'
+                            '    def status(self):\n'
+                            '        print(f"  {self.name}: {self.health}/{self.max_health} HP | ATK: {self.base_attack}")\n'
+                            '\n'
+                            'class Monster(Character):\n'
+                            '    def __init__(self, name, health, base_attack, xp_reward):\n'
+                            '        super().__init__(name, health, base_attack)\n'
+                            '        self.xp_reward = xp_reward\n'
+                            '\n'
+                            '# === SET UP THE GAME ===\n'
+                            'hero = Character("Toby", 100, 15)\n'
+                            'hero.pick_up(Item("Health Potion", "heal", 30))\n'
+                            'hero.pick_up(Item("Magic Sword", "weapon", 10))\n'
+                            '\n'
+                            'monsters = [\n'
+                            '    Monster("Goblin", 40, 8, 20),\n'
+                            '    Monster("Skeleton", 60, 12, 35),\n'
+                            '    Monster("Dragon", 100, 20, 100),\n'
+                            ']\n'
+                            '\n'
+                            'print("=== TOBY\'S TEXT RPG ===")\n'
+                            'print(f"Inventory: {hero.inventory}")\n'
+                            'hero.use_item("Magic Sword")\n'
+                            '\n'
+                            'total_xp = 0\n'
+                            'for monster in monsters:\n'
+                            '    print(f"\\n--- A wild {monster.name} appears! ---")\n'
+                            '    while hero.is_alive() and monster.is_alive():\n'
+                            '        hero.attack(monster)\n'
+                            '        if monster.is_alive():\n'
+                            '            monster.attack(hero)\n'
+                            '    if hero.is_alive():\n'
+                            '        total_xp += monster.xp_reward\n'
+                            '        print(f"Victory! +{monster.xp_reward} XP")\n'
+                            '        if hero.health < 50 and hero.inventory:\n'
+                            '            hero.use_item("Health Potion")\n'
+                            '    else:\n'
+                            '        print("Game Over! 💀")\n'
+                            '        break\n'
+                            '\n'
+                            'print(f"\\n=== FINAL STATUS ===")\n'
+                            'hero.status()\n'
+                            'print(f"Total XP earned: {total_xp}")'
+                        ),
+                        'expected_output': None,
+                        'hints': [
+                            'attack: damage = self.base_attack + random.randint(0, 10)',
+                            'use_item: loop through self.inventory to find the item by name',
+                            'Heal: self.health = min(self.health + item.power, self.max_health)',
+                        ],
+                    },
+                    {
+                        'type': 'quiz',
+                        'title': 'OOP in Games Quiz',
+                        'question': 'Why is OOP useful for game development?',
+                        'voice': 'Quiz! Why is OOP useful for game development?',
+                        'options': [
+                            'It makes games run faster',
+                            'It organises code into reusable objects that model game entities',
+                            'It is required by all game engines',
+                            'It automatically creates graphics',
+                        ],
+                        'answer': 1,
+                        'explanation': (
+                            'OOP organises code into classes that model game entities — '
+                            'players, enemies, items, weapons. '
+                            'Each object manages its own state and behaviour, '
+                            'making complex games much easier to build and maintain.'
+                        ),
+                        'explanation_voice': (
+                            'Correct! OOP organises code into reusable objects that model game things — '
+                            'players, enemies, items. It makes complex games much easier to build!'
+                        ),
+                    },
+                ],
+            },
+        ],
+    },
 
     _stub_module(
         't_m7', 'Files & Exceptions 📁', '📁',
@@ -1681,38 +2518,396 @@ TOBY_MODULES = [
          'AI ethics and responsible use']
     ),
 
-    _stub_module(
-        't_m11', 'Game Dev with pygame 🎮', '🎮',
-        'Build real games — Pong, a platform game, and a Tetris clone!',
-        'Game Developer', '🎮', '#55EFC4',
-        ['t_m1', 't_m2', 't_m3', 't_m4', 't_m5', 't_m6'],
-        (
-            "You are going to build REAL games with pygame! 🎮\n\n"
-            "pygame gives you:\n"
-            "  🖼️  A window to draw on\n"
-            "  ⌨️  Keyboard and mouse input\n"
-            "  🎵  Sound effects and music\n"
-            "  🖱️  Sprites and collision detection\n\n"
-            "Projects you will build:\n"
-            "  🏓  Pong — the classic two-player game\n"
-            "  🏃  Platform game — run, jump, collect coins!\n"
-            "  🟥  Tetris clone — falling blocks puzzle game\n\n"
-            "All code is open-source and based on real GitHub projects!\n"
-            "You will learn to READ and MODIFY existing code — just like real developers!"
-        ),
-        (
-            "You are going to build real games with pygame! "
-            "You will get a window to draw on, handle keyboard input, "
-            "add sound effects, and use sprites with collision detection. "
-            "You will build Pong, a platform game, and a Tetris clone. "
-            "All based on real open source GitHub projects! This module is coming soon!"
-        ),
-        ['pygame setup, game loop, and drawing',
-         'Events — keyboard and mouse input',
-         'Sprites, movement, and collision detection',
-         'Project: Pong',
-         'Project: Platform game (run, jump, collect)',
-         'Project: Tetris clone',
-         'Adding high scores and saving to file']
-    ),
+    # ================================================================
+    # MODULE 11: Game Development (text-based)
+    # ================================================================
+    {
+        'id': 't_m11',
+        'title': 'Game Development 🎮',
+        'icon': '🎮',
+        'description': 'Build text-based games — dice duels, slot machines, and a dungeon crawler!',
+        'badge': 'Game Developer',
+        'badge_icon': '🎮',
+        'color': '#55EFC4',
+        'prerequisite_modules': ['t_m1', 't_m2', 't_m3', 't_m4', 't_m5', 't_m6'],
+        'lessons': [
+            # ---- Lesson 1: Game Design & ASCII Art ----
+            {
+                'id': 't_m11_l1',
+                'title': 'Game Design & ASCII Art',
+                'icon': '🎲',
+                'xp': 150,
+                'steps': [
+                    {
+                        'type': 'story',
+                        'title': 'Mission: Game Developer 🎮',
+                        'content': (
+                            "Agent Toby — you are about to become a GAME DEVELOPER.\n\n"
+                            "Every game ever made — from Minecraft to FIFA — runs on\n"
+                            "the same three ideas:\n\n"
+                            "  1. GAME LOOP  — update, check, repeat\n"
+                            "  2. GAME STATE — variables tracking everything\n"
+                            "  3. INPUT/OUTPUT — player actions and display\n\n"
+                            "We will build text-based games using Python and random.\n"
+                            "No graphics libraries needed — just pure code! 💻"
+                        ),
+                        'voice': (
+                            "Agent Toby, you are about to become a game developer! "
+                            "Every game runs on three ideas: the game loop, game state, and input output. "
+                            "We will build text-based games using pure Python!"
+                        ),
+                    },
+                    {
+                        'type': 'teach',
+                        'title': 'Game Loop, State & ASCII Art',
+                        'content': (
+                            "The GAME LOOP — the heartbeat of every game:\n"
+                            "    while game_running:\n"
+                            "        show_state()    # display the game\n"
+                            "        get_input()     # what does the player do?\n"
+                            "        update_state()  # process the action\n"
+                            "        check_win()     # has anyone won?\n\n"
+                            "GAME STATE — track everything with variables/dicts:\n"
+                            "    game = {\n"
+                            '        "coins": 100,\n'
+                            '        "round": 1,\n'
+                            '        "playing": True\n'
+                            "    }\n\n"
+                            "ASCII ART — draw with text characters:\n"
+                            '    print("╔══════════╗")\n'
+                            '    print("║  🎰 SLOT ║")\n'
+                            '    print("╚══════════╝")\n\n'
+                            "Use random for dice, cards, enemy behaviour, and loot!"
+                        ),
+                        'voice': (
+                            "The game loop has four steps: show state, get input, update state, check win. "
+                            "Track everything with dictionaries and variables. "
+                            "Use ASCII art to draw displays. "
+                            "Use random for dice rolls, enemy behaviour, and loot!"
+                        ),
+                    },
+                    {
+                        'type': 'example',
+                        'title': 'Dice Duel Game',
+                        'content': 'A simple dice duel — player vs computer:',
+                        'voice': 'Here is a dice duel game — player versus computer.',
+                        'code': (
+                            'import random\n'
+                            '\n'
+                            'print("=== ⚔️ DICE DUEL ⚔️ ===")\n'
+                            'print("Best of 5 rounds!\\n")\n'
+                            '\n'
+                            'player_wins = 0\n'
+                            'computer_wins = 0\n'
+                            '\n'
+                            'for round_num in range(1, 6):\n'
+                            '    player_roll = random.randint(1, 6)\n'
+                            '    computer_roll = random.randint(1, 6)\n'
+                            '\n'
+                            '    print(f"Round {round_num}: You rolled {player_roll} 🎲 | Computer rolled {computer_roll} 🎲")\n'
+                            '\n'
+                            '    if player_roll > computer_roll:\n'
+                            '        print("  → You win this round! ✅")\n'
+                            '        player_wins += 1\n'
+                            '    elif computer_roll > player_roll:\n'
+                            '        print("  → Computer wins this round! ❌")\n'
+                            '        computer_wins += 1\n'
+                            '    else:\n'
+                            '        print("  → Draw! 🤝")\n'
+                            '\n'
+                            'print(f"\\n=== FINAL SCORE ===")\n'
+                            'print(f"You: {player_wins} | Computer: {computer_wins}")\n'
+                            'if player_wins > computer_wins:\n'
+                            '    print("🏆 YOU WIN THE DUEL!")\n'
+                            'elif computer_wins > player_wins:\n'
+                            '    print("💻 Computer wins... try again!")\n'
+                            'else:\n'
+                            '    print("🤝 It is a draw!")'
+                        ),
+                        'expected_output': None,
+                    },
+                    {
+                        'type': 'exercise',
+                        'title': 'ASCII Slot Machine 🎰',
+                        'content': (
+                            "Build a slot machine game!\n\n"
+                            "  1. Player starts with 100 coins\n"
+                            "  2. Each spin costs 10 coins\n"
+                            "  3. Spin 3 random symbols from: 🍒 🍋 🔔 ⭐ 💎\n"
+                            "  4. Match 2 = win 20 coins, match 3 = win 50 coins\n"
+                            "  5. Run for 5 spins and show final balance\n\n"
+                            "Complete the TODO sections!"
+                        ),
+                        'voice': (
+                            "Build a slot machine! Each spin costs 10 coins. "
+                            "Match two symbols to win 20 coins, three to win 50. "
+                            "Run five spins and show the final balance!"
+                        ),
+                        'starter_code': (
+                            'import random\n'
+                            '\n'
+                            'symbols = ["🍒", "🍋", "🔔", "⭐", "💎"]\n'
+                            'coins = 100\n'
+                            '\n'
+                            'print("╔═══════════════════╗")\n'
+                            'print("║   🎰 SLOT MACHINE ║")\n'
+                            'print("╚═══════════════════╝")\n'
+                            'print(f"Starting coins: {coins}\\n")\n'
+                            '\n'
+                            'for spin in range(1, 6):\n'
+                            '    coins -= 10  # cost per spin\n'
+                            '\n'
+                            '    # TODO: Pick 3 random symbols\n'
+                            '    s1 = random.choice(symbols)\n'
+                            '    s2 = random.choice(symbols)\n'
+                            '    s3 = random.choice(symbols)\n'
+                            '\n'
+                            '    print(f"Spin {spin}: | {s1} | {s2} | {s3} |", end=" ")\n'
+                            '\n'
+                            '    # TODO: Check for matches\n'
+                            '    # If all 3 match: win 50 coins, print "JACKPOT! 🎉"\n'
+                            '    # If any 2 match: win 20 coins, print "Nice! Two match!"\n'
+                            '    # Otherwise: print "No luck..."\n'
+                            '    # Hint: check s1==s2==s3 first, then check pairs\n'
+                            '    pass\n'
+                            '\n'
+                            '    print(f"  Coins: {coins}")\n'
+                            '\n'
+                            'print(f"\\n=== GAME OVER ===")\n'
+                            'print(f"Final coins: {coins}")\n'
+                            'profit = coins - 100\n'
+                            'if profit > 0:\n'
+                            '    print(f"You made a profit of {profit} coins! 🎉")\n'
+                            'elif profit < 0:\n'
+                            '    print(f"You lost {abs(profit)} coins. Better luck next time!")\n'
+                            'else:\n'
+                            '    print("You broke even! 🤷")'
+                        ),
+                        'expected_output': None,
+                        'hints': [
+                            'Three match: if s1 == s2 == s3',
+                            'Two match: if s1==s2 or s2==s3 or s1==s3',
+                            'Remember to add coins for wins: coins += 50 or coins += 20',
+                        ],
+                    },
+                    {
+                        'type': 'quiz',
+                        'title': 'Game Loop Quiz',
+                        'question': 'What are the 3 parts of a game loop?',
+                        'voice': 'Quiz! What are the three parts of a game loop?',
+                        'options': [
+                            'Start, Middle, End',
+                            'Input, Update, Render (display)',
+                            'Load, Save, Quit',
+                            'Create, Destroy, Repeat',
+                        ],
+                        'answer': 1,
+                        'explanation': (
+                            'The game loop has three core parts: '
+                            'Input (get player actions), Update (process the game logic), '
+                            'and Render (display the current state). This repeats every frame!'
+                        ),
+                        'explanation_voice': (
+                            'Correct! Input, Update, Render — get actions, process logic, display state. '
+                            'This repeats every frame in every game ever made!'
+                        ),
+                    },
+                ],
+            },
+
+            # ---- Lesson 2: Dungeon Crawler Project ----
+            {
+                'id': 't_m11_l2',
+                'title': 'Project: Dungeon Crawler',
+                'icon': '🏰',
+                'xp': 200,
+                'steps': [
+                    {
+                        'type': 'story',
+                        'title': 'Build a Real Dungeon Crawler! 🏰',
+                        'content': (
+                            "Agent Toby — final project time.\n\n"
+                            "You will build a DUNGEON CRAWLER:\n"
+                            "  🗺️  A map made of rooms (2D list)\n"
+                            "  🏃  A player who moves through the dungeon\n"
+                            "  💎  Items to collect\n"
+                            "  👹  A monster to fight\n\n"
+                            "This combines EVERYTHING: classes, lists, loops,\n"
+                            "conditionals, random, and functions.\n\n"
+                            "Let's build it! 🚀"
+                        ),
+                        'voice': (
+                            "Final project! Build a dungeon crawler with a map, a player, "
+                            "items to collect, and a monster to fight. "
+                            "This uses everything you have learned. Let's build it!"
+                        ),
+                    },
+                    {
+                        'type': 'teach',
+                        'title': '2D Lists as Game Maps',
+                        'content': (
+                            "A 2D list is a list of lists — perfect for a grid map:\n\n"
+                            "    dungeon = [\n"
+                            '        ["🚪", "  ", "💎"],\n'
+                            '        ["  ", "##", "  "],\n'
+                            '        ["👹", "  ", "🏆"],\n'
+                            "    ]\n\n"
+                            "Access cells with [row][col]:\n"
+                            '    dungeon[0][0]  → "🚪"  (top-left)\n'
+                            '    dungeon[2][2]  → "🏆"  (bottom-right)\n\n'
+                            "Player position is just (row, col):\n"
+                            "    player_row = 0\n"
+                            "    player_col = 0\n\n"
+                            "Movement:\n"
+                            "    Up    → row - 1\n"
+                            "    Down  → row + 1\n"
+                            "    Left  → col - 1\n"
+                            "    Right → col + 1\n\n"
+                            "Check boundaries before moving!"
+                        ),
+                        'voice': (
+                            "A 2D list is a list of lists — perfect for a grid map. "
+                            "Access cells with row and column indexes. "
+                            "Player position is just a row and column number. "
+                            "Move by changing the row or column, but check boundaries first!"
+                        ),
+                    },
+                    {
+                        'type': 'exercise',
+                        'title': 'Dungeon Crawler 🏰',
+                        'content': (
+                            "Complete this dungeon crawler! You need to:\n\n"
+                            "  1. Add two more rooms to the dungeon map\n"
+                            "  2. Complete the combat logic when meeting a monster\n"
+                            "  3. Add item collection\n\n"
+                            "The game auto-plays a random path through the dungeon."
+                        ),
+                        'voice': (
+                            "Complete the dungeon crawler! Add rooms, combat, and item collection. "
+                            "The game will auto-play a random path."
+                        ),
+                        'starter_code': (
+                            'import random\n'
+                            '\n'
+                            '# === DUNGEON MAP ===\n'
+                            '# Each room: (description, content_type, content_value)\n'
+                            '# content_type: "empty", "item", "monster", "exit"\n'
+                            'rooms = {\n'
+                            '    (0, 0): ("Entrance Hall", "empty", None),\n'
+                            '    (0, 1): ("Dusty Corridor", "item", "Health Potion"),\n'
+                            '    (0, 2): ("Armoury", "item", "Iron Sword"),\n'
+                            '    (1, 0): ("Dark Pit", "monster", {"name": "Goblin", "hp": 30, "atk": 5}),\n'
+                            '    (1, 1): ("Treasure Room", "item", "Gold Coins"),\n'
+                            '    (1, 2): ("Library", "empty", None),\n'
+                            '    # TODO: Add room (2, 0) — a "Throne Room" with a strong monster\n'
+                            '    # Example: ("Throne Room", "monster", {"name": "Dragon", "hp": 50, "atk": 10})\n'
+                            '    # TODO: Add room (2, 1) — an "Ancient Vault" with a special item\n'
+                            '    (2, 2): ("Exit Portal", "exit", None),\n'
+                            '}\n'
+                            '\n'
+                            '# === PLAYER STATE ===\n'
+                            'player = {"hp": 100, "atk": 10, "items": [], "pos": (0, 0)}\n'
+                            '\n'
+                            'def show_status():\n'
+                            '    print(f"  HP: {player[\'hp\']} | ATK: {player[\'atk\']} | Items: {player[\'items\']}")\n'
+                            '\n'
+                            'def fight_monster(monster):\n'
+                            '    """Fight a monster! Returns True if player wins."""\n'
+                            '    m_hp = monster["hp"]\n'
+                            '    m_atk = monster["atk"]\n'
+                            '    print(f"  ⚔️ A {monster[\'name\']} attacks! (HP:{m_hp} ATK:{m_atk})")\n'
+                            '    while player["hp"] > 0 and m_hp > 0:\n'
+                            '        # TODO: Player attacks monster\n'
+                            '        # damage = player["atk"] + random.randint(0, 5)\n'
+                            '        # Subtract from m_hp, print the hit\n'
+                            '        # Then monster attacks player if still alive\n'
+                            '        # m_damage = m_atk + random.randint(0, 3)\n'
+                            '        # Subtract from player["hp"]\n'
+                            '        pass  # Replace this!\n'
+                            '        break  # Remove this after adding combat!\n'
+                            '    if m_hp <= 0:\n'
+                            '        print(f"  ✅ You defeated the {monster[\'name\']}!")\n'
+                            '        return True\n'
+                            '    return False\n'
+                            '\n'
+                            '# === GAME LOOP ===\n'
+                            'print("=== 🏰 DUNGEON CRAWLER ===")\n'
+                            'visited = set()\n'
+                            '\n'
+                            'for turn in range(1, 15):\n'
+                            '    pos = player["pos"]\n'
+                            '    if pos not in rooms:\n'
+                            '        print("You hit a wall! Turning back.")\n'
+                            '        player["pos"] = (0, 0)\n'
+                            '        continue\n'
+                            '\n'
+                            '    room_name, content_type, content_val = rooms[pos]\n'
+                            '    print(f"\\nTurn {turn}: You enter the {room_name} {pos}")\n'
+                            '\n'
+                            '    if pos not in visited:\n'
+                            '        visited.add(pos)\n'
+                            '        if content_type == "item":\n'
+                            '            player["items"].append(content_val)\n'
+                            '            print(f"  💎 Found: {content_val}!")\n'
+                            '        elif content_type == "monster":\n'
+                            '            fight_monster(content_val)\n'
+                            '        elif content_type == "exit":\n'
+                            '            print("  🏆 You found the exit! YOU WIN!")\n'
+                            '            show_status()\n'
+                            '            break\n'
+                            '    else:\n'
+                            '        print("  (already explored)")\n'
+                            '\n'
+                            '    show_status()\n'
+                            '\n'
+                            '    if player["hp"] <= 0:\n'
+                            '        print("💀 Game Over!")\n'
+                            '        break\n'
+                            '\n'
+                            '    # Auto-move to a random adjacent room\n'
+                            '    moves = [(0,1),(0,-1),(1,0),(-1,0)]\n'
+                            '    dr, dc = random.choice(moves)\n'
+                            '    new_pos = (pos[0]+dr, pos[1]+dc)\n'
+                            '    if new_pos in rooms:\n'
+                            '        player["pos"] = new_pos\n'
+                            '    else:\n'
+                            '        player["pos"] = random.choice(list(rooms.keys()))\n'
+                            '\n'
+                            'print(f"\\n=== ADVENTURE COMPLETE ===")\n'
+                            'print(f"Rooms explored: {len(visited)}/{len(rooms)}")\n'
+                            'show_status()'
+                        ),
+                        'expected_output': None,
+                        'hints': [
+                            'Add rooms: (2,0): ("Throne Room", "monster", {"name":"Dragon","hp":50,"atk":10})',
+                            'Combat: damage = player["atk"] + random.randint(0, 5); m_hp -= damage',
+                            'Monster turn: m_damage = m_atk + random.randint(0, 3); player["hp"] -= m_damage',
+                        ],
+                    },
+                    {
+                        'type': 'quiz',
+                        'title': 'Game Map Quiz',
+                        'question': 'How do 2D lists represent a game map?',
+                        'voice': 'Quiz! How do 2D lists represent a game map?',
+                        'options': [
+                            'Each list element is a pixel on screen',
+                            'Rows and columns form a grid — each cell is a map tile',
+                            'They store the game soundtrack',
+                            'They only work with graphics libraries',
+                        ],
+                        'answer': 1,
+                        'explanation': (
+                            'A 2D list forms a grid where rows and columns map to positions. '
+                            'Each cell holds what is at that position — a wall, item, enemy, or empty space. '
+                            'Access with grid[row][col].'
+                        ),
+                        'explanation_voice': (
+                            'Correct! Rows and columns form a grid. Each cell is a map tile — '
+                            'it could be a wall, an item, or an enemy. Access it with row and column indexes!'
+                        ),
+                    },
+                ],
+            },
+        ],
+    },
 ]

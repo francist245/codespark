@@ -369,16 +369,28 @@ print(greet("World"))
         assert result['success'] is True
         assert "Hello, World!" in result['output']
 
-    def test_class_definition_blocked(self, toby):
-        """Class definitions require __build_class__ which is blocked for safety."""
+    def test_class_definition_allowed_toby(self, toby):
+        """Class definitions are allowed for Toby (needed for OOP module)."""
         code = """\
 class Dog:
     def __init__(self, name):
         self.name = name
 
 d = Dog("Rex")
-print(d)
+print(d.name)
 """
         result = toby.run(code)
+        assert result['success'] is True
+        assert 'Rex' in result['output']
+
+    def test_class_definition_blocked_joshua(self):
+        """Class definitions are blocked for Joshua (too advanced for age 5)."""
+        runner = SafeCodeRunner(profile='joshua')
+        code = """\
+class Dog:
+    pass
+d = Dog()
+"""
+        result = runner.run(code)
         assert result['success'] is False
         assert '__build_class__' in result['error']

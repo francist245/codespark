@@ -61,7 +61,7 @@ BLOCKED_BUILTINS = frozenset({
 })
 
 
-def _make_safe_builtins(extra_allowed=None):
+def _make_safe_builtins(extra_allowed=None, allow_classes=False):
     """Return a restricted __builtins__ dict."""
     safe = {
         # I/O
@@ -105,6 +105,9 @@ def _make_safe_builtins(extra_allowed=None):
     }
     if extra_allowed:
         safe.update(extra_allowed)
+    # Allow class definitions for profiles that need OOP (Toby's M6+)
+    if allow_classes:
+        safe['__build_class__'] = __builtins__['__build_class__'] if isinstance(__builtins__, dict) else getattr(__builtins__, '__build_class__')
     return safe
 
 
@@ -206,7 +209,8 @@ class SafeCodeRunner:
         self.profile = profile
         allowed = TOBY_ALLOWED if profile == 'toby' else JOSHUA_ALLOWED
         self._allowed_modules = allowed
-        self._safe_builtins = _make_safe_builtins()
+        # Toby gets class definitions for OOP modules
+        self._safe_builtins = _make_safe_builtins(allow_classes=(profile == 'toby'))
 
     def run(self, code: str, prefilled_inputs=None) -> dict:
         """
