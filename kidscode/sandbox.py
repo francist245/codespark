@@ -101,7 +101,6 @@ def _make_safe_builtins(extra_allowed=None, allow_classes=False):
         'ImportError': ImportError, 'ModuleNotFoundError': ModuleNotFoundError,
         # Misc helpers
         'iter': iter, 'next': next, 'all': all, 'any': any,
-        'id': id,
     }
     if extra_allowed:
         safe.update(extra_allowed)
