@@ -28,8 +28,10 @@ class CodeEditor(tk.Frame):
         self.app = app
         self.profile = profile
         self._running = False
+        self._on_run_callback = None
         self._build(height)
         self._setup_highlighting()
+        self._show_placeholder()
 
     # ------------------------------------------------------------------
     # Build
@@ -37,40 +39,47 @@ class CodeEditor(tk.Frame):
 
     def _build(self, height):
         self._starter_code = ''  # stored for Reset button
+        is_joshua = self.profile == 'joshua'
+        code_font_size = 18 if is_joshua else 12
+        btn_font_size = 16 if is_joshua else 11
+        small_btn_size = 13 if is_joshua else 10
 
         # ── Toolbar ──────────────────────────────────────────────────
         toolbar = tk.Frame(self, bg='#161b22', padx=8, pady=6)
         toolbar.pack(fill='x')
 
+        editor_label = '✏️ My Code' if is_joshua else '</> Code Editor'
         tk.Label(
-            toolbar, text='</> Code Editor',
+            toolbar, text=editor_label,
             bg='#161b22', fg='#58a6ff',
-            font=('Courier New', 11, 'bold'),
+            font=('Courier New', btn_font_size, 'bold'),
         ).pack(side='left')
 
         self._run_btn = tk.Button(
             toolbar, text='▶  Run Code',
             bg='#238636', fg='white',
-            font=('Segoe UI', 11, 'bold'),
+            font=('Segoe UI', btn_font_size, 'bold'),
             relief='flat', bd=0, padx=12, pady=4,
             cursor='hand2',
             command=self._run_code,
         )
         self._run_btn.pack(side='right', padx=4)
 
+        reset_label = '🔄 Start Again' if is_joshua else '🔄 Reset'
         tk.Button(
-            toolbar, text='🔄 Reset',
+            toolbar, text=reset_label,
             bg='#21262d', fg='#aaa',
-            font=('Segoe UI', 10),
+            font=('Segoe UI', small_btn_size),
             relief='flat', bd=0, padx=10, pady=4,
             cursor='hand2',
             command=self._reset_code,
         ).pack(side='right', padx=4)
 
+        clear_label = '🗑 Rub Out' if is_joshua else '🗑 Clear'
         tk.Button(
-            toolbar, text='🗑 Clear',
+            toolbar, text=clear_label,
             bg='#21262d', fg='#aaa',
-            font=('Segoe UI', 10),
+            font=('Segoe UI', small_btn_size),
             relief='flat', bd=0, padx=10, pady=4,
             cursor='hand2',
             command=self._clear_output,
@@ -84,7 +93,7 @@ class CodeEditor(tk.Frame):
         self._line_nums = tk.Text(
             self._editor_frame,
             width=4, bg=LINE_BG, fg='#555',
-            font=('Courier New', 12),
+            font=('Courier New', code_font_size),
             state='disabled', relief='flat', bd=0,
             padx=4, pady=6, selectbackground=LINE_BG,
         )
@@ -94,7 +103,7 @@ class CodeEditor(tk.Frame):
             self._editor_frame,
             bg=DARK_BG, fg=TEXT_FG,
             insertbackground=CURSOR_FG,
-            font=('Courier New', 12),
+            font=('Courier New', code_font_size),
             relief='flat', bd=0,
             height=height,
             padx=8, pady=6,
@@ -110,6 +119,9 @@ class CodeEditor(tk.Frame):
 
         self._text.bind('<KeyRelease>', self._on_key)
         self._text.bind('<Tab>', self._handle_tab)
+        self._text.bind('<Return>', self._handle_enter)
+        self._text.bind('<FocusIn>', self._hide_placeholder)
+        self._text.bind('<FocusOut>', lambda e: self._show_placeholder())
 
         # ── Inputs panel (shown when code has input() calls) ─────────
         self._inputs_frame = tk.Frame(self, bg='#1c2333')
@@ -117,10 +129,12 @@ class CodeEditor(tk.Frame):
 
         inputs_header = tk.Frame(self._inputs_frame, bg='#1c2333', padx=8, pady=4)
         inputs_header.pack(fill='x')
+        inputs_label = '✏️ Type your answers here!' if is_joshua else \
+            '⌨  Program Inputs  (type one value per line — your answers go here!)'
         tk.Label(
-            inputs_header, text='⌨  Program Inputs  (type one value per line — your answers go here!)',
+            inputs_header, text=inputs_label,
             bg='#1c2333', fg='#fbbf24',
-            font=('Segoe UI', 10, 'bold'),
+            font=('Segoe UI', small_btn_size, 'bold'),
         ).pack(side='left')
 
         self._inputs_text = tk.Text(
@@ -151,7 +165,7 @@ class CodeEditor(tk.Frame):
         self._output = tk.Text(
             self,
             bg=OUTPUT_BG, fg=OUTPUT_FG,
-            font=('Courier New', 11),
+            font=('Courier New', code_font_size - 2),
             height=6, state='disabled',
             relief='flat', bd=0,
             padx=8, pady=6,
@@ -165,6 +179,7 @@ class CodeEditor(tk.Frame):
 
     def set_code(self, code: str):
         """Set the code editor content and store as starter code for reset."""
+        self._has_placeholder = False
         self._starter_code = code
         self._text.delete('1.0', 'end')
         self._text.insert('1.0', code)
@@ -197,9 +212,14 @@ class CodeEditor(tk.Frame):
     def _run_code(self):
         if self._running:
             return
+        self._hide_placeholder()
+        code = self.get_code().strip()
+        if not code:
+            self._clear_output()
+            self._append_output('✏️ Type some code first, then press Run Code!', '#fbbf24')
+            return
         self._running = True
         self._run_btn.configure(text='⏳ Running…', state='disabled', bg='#555')
-        code = self.get_code()
         self._clear_output()
         self._append_output('Running...\n', '#8b949e')
 
@@ -232,8 +252,17 @@ class CodeEditor(tk.Frame):
                 self._append_output('✅ Your code ran successfully! (no output)', '#4ade80')
             self.app.audio.play('correct')
 
+        # Flash the output panel so kids notice the result
+        self._flash_output()
+
         if hasattr(self, '_on_run_callback') and self._on_run_callback:
             self._on_run_callback(result)
+
+    def _flash_output(self):
+        """Brief green flash on output panel to draw the child's eye."""
+        orig_bg = self._output.cget('bg')
+        self._output.configure(bg='#1a3a1a')
+        self.after(400, lambda: self._output.configure(bg=orig_bg))
 
     @staticmethod
     def _friendly_error(msg: str) -> str:
@@ -269,6 +298,26 @@ class CodeEditor(tk.Frame):
         self._on_run_callback = callback
 
     # ------------------------------------------------------------------
+    # Placeholder text
+    # ------------------------------------------------------------------
+
+    def _show_placeholder(self):
+        """Show ghost placeholder text when editor is empty."""
+        if self.get_code().strip():
+            return
+        hint = '# Type your code here...' if self.profile == 'toby' else '# Type your code here! 😊'
+        self._text.insert('1.0', hint)
+        self._text.tag_add('placeholder', '1.0', 'end')
+        self._text.tag_configure('placeholder', foreground='#555')
+        self._has_placeholder = True
+
+    def _hide_placeholder(self, event=None):
+        """Remove placeholder text when editor gets focus."""
+        if getattr(self, '_has_placeholder', False):
+            self._text.delete('1.0', 'end')
+            self._has_placeholder = False
+
+    # ------------------------------------------------------------------
     # Output helpers
     # ------------------------------------------------------------------
 
@@ -299,9 +348,10 @@ class CodeEditor(tk.Frame):
     }
 
     def _setup_highlighting(self):
-        self._text.tag_configure('keyword', foreground=KEYWORD_FG, font=('Courier New', 12, 'bold'))
+        sz = 18 if self.profile == 'joshua' else 12
+        self._text.tag_configure('keyword', foreground=KEYWORD_FG, font=('Courier New', sz, 'bold'))
         self._text.tag_configure('string',  foreground=STRING_FG)
-        self._text.tag_configure('comment', foreground=COMMENT_FG, font=('Courier New', 12, 'italic'))
+        self._text.tag_configure('comment', foreground=COMMENT_FG, font=('Courier New', sz, 'italic'))
         self._text.tag_configure('number',  foreground=NUMBER_FG)
 
     def _highlight(self):
@@ -364,4 +414,14 @@ class CodeEditor(tk.Frame):
     def _handle_tab(self, event):
         """Convert Tab key to 4 spaces."""
         self._text.insert('insert', '    ')
+        return 'break'
+
+    def _handle_enter(self, event):
+        """Auto-indent: match previous line's indent, add 4 spaces after ':'."""
+        current_line = self._text.get('insert linestart', 'insert')
+        indent = len(current_line) - len(current_line.lstrip())
+        if current_line.rstrip().endswith(':'):
+            indent += 4
+        self._text.insert('insert', '\n' + ' ' * indent)
+        self._on_key()
         return 'break'

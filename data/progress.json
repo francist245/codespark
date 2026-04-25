@@ -7,24 +7,30 @@
     "total_xp": 50,
     "badges": [],
     "streak_days": 1,
-    "last_session": "2026-04-03T15:07:42",
-    "sessions": 2,
+    "last_session": "2026-04-25T19:30:16",
+    "sessions": 5,
     "created_at": "2026-04-03T10:44:47"
   },
   "toby": {
     "completed_lessons": [
       "t_m1_l1",
       "t_m1_l2",
-      "t_m1_l3"
+      "t_m1_l3",
+      "t_m2_l1",
+      "t_m3_l1"
     ],
-    "quiz_scores": {},
-    "total_xp": 300,
+    "quiz_scores": {
+      "t_m2_l1::Logic Quiz": "correct",
+      "t_m3_l1::Loops Quiz": "correct"
+    },
+    "total_xp": 550,
     "badges": [
-      "Python Starter"
+      "Python Starter",
+      "Logic Thinker"
     ],
     "streak_days": 1,
-    "last_session": "2026-04-03T15:23:43",
-    "sessions": 5,
+    "last_session": "2026-04-14T09:56:57",
+    "sessions": 8,
     "created_at": "2026-04-03T10:34:03"
   }
 }

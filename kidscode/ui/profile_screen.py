@@ -168,27 +168,102 @@ class ProfileScreen(tk.Frame):
             pass
 
     def _select_profile(self, profile: str):
-        self.app.current_profile = profile
-        self.app.progress.start_session(profile)
-        self.app.audio.set_profile(profile)
+        # Prevent double-click
+        if getattr(self, '_loading', False):
+            return
+        self._loading = True
 
-        if profile == 'joshua':
-            sessions = self.app.progress._profile('joshua').get('sessions', 0)
-            greeting = "Hi Joshua! Welcome to KidsCode!" if sessions <= 1 else "Hi Joshua! Welcome back!"
-            self.app.audio.speak(
-                f"{greeting} Let's start coding! Choose a module to begin!",
-                profile='joshua', clear_queue=True,
-            )
-        else:
-            sessions = self.app.progress._profile('toby').get('sessions', 0)
-            greeting = "Hi Toby! Welcome to KidsCode!" if sessions <= 1 else "Welcome back Toby!"
-            self.app.audio.speak(
-                f"{greeting} Let's code something awesome today!",
-                profile='toby', clear_queue=True,
-            )
+        # Show loading overlay immediately (before any I/O)
+        self._show_loading(profile)
 
-        self.app.audio.play('start')
-        self.app.show_screen('home', profile=profile)
+        # Do the slow initialisation in a background thread
+        import threading
+        def _init_worker():
+            self.app.current_profile = profile
+            self.app.progress.start_session(profile)
+            self.app.audio.set_profile(profile)
+
+            if profile == 'joshua':
+                sessions = self.app.progress._profile('joshua').get('sessions', 0)
+                greeting = "Hi Joshua! Welcome to KidsCode!" if sessions <= 1 else "Hi Joshua! Welcome back!"
+                self.app.audio.speak(
+                    f"{greeting} Let's start coding! Choose a module to begin!",
+                    profile='joshua', clear_queue=True,
+                )
+            else:
+                sessions = self.app.progress._profile('toby').get('sessions', 0)
+                greeting = "Hi Toby! Welcome to KidsCode!" if sessions <= 1 else "Welcome back Toby!"
+                self.app.audio.speak(
+                    f"{greeting} Let's code something awesome today!",
+                    profile='toby', clear_queue=True,
+                )
+
+            self.app.audio.play('start')
+            # Switch screen on main thread
+            self.after(0, lambda: self._finish_loading(profile))
+
+        threading.Thread(target=_init_worker, daemon=True).start()
+
+    def _show_loading(self, profile):
+        """Show an animated loading overlay with progress bar."""
+        name = 'Joshua' if profile == 'joshua' else 'Toby'
+        color = '#FF6B6B' if profile == 'joshua' else '#00B4D8'
+        emoji = '🌟' if profile == 'joshua' else '⚡'
+
+        self._loading_overlay = tk.Frame(self, bg='#0d0d1a')
+        self._loading_overlay.place(relx=0, rely=0, relwidth=1, relheight=1)
+
+        tk.Label(
+            self._loading_overlay, text=f'{emoji}  Loading {name}\'s World...  {emoji}',
+            bg='#0d0d1a', fg=color,
+            font=('Segoe UI', 32, 'bold'),
+        ).place(relx=0.5, rely=0.38, anchor='center')
+
+        tk.Label(
+            self._loading_overlay, text='Getting everything ready for you!',
+            bg='#0d0d1a', fg='#cccccc',
+            font=('Segoe UI', 16),
+        ).place(relx=0.5, rely=0.46, anchor='center')
+
+        # Animated progress bar
+        bar_frame = tk.Frame(self._loading_overlay, bg='#1c2333', height=12)
+        bar_frame.place(relx=0.25, rely=0.54, relwidth=0.5, height=12)
+
+        self._loading_fill = tk.Frame(bar_frame, bg=color, height=12)
+        self._loading_fill.place(relx=0, rely=0, relheight=1, relwidth=0)
+
+        self._loading_progress = 0.0
+        self._animate_loading(color)
+
+    def _animate_loading(self, color):
+        """Animate the loading bar with a smooth fill."""
+        if not getattr(self, '_loading', False):
+            return
+        self._loading_progress = min(self._loading_progress + 0.04, 0.92)
+        try:
+            self._loading_fill.place_configure(relwidth=self._loading_progress)
+        except tk.TclError:
+            return
+        self.after(50, lambda: self._animate_loading(color))
+
+    def _finish_loading(self, profile):
+        """Complete the loading bar and transition to home screen."""
+        # Fill bar to 100%
+        try:
+            self._loading_fill.place_configure(relwidth=1.0)
+        except (tk.TclError, AttributeError):
+            pass
+
+        # Brief pause at 100% so the child sees it complete
+        def _go():
+            self._loading = False
+            try:
+                self._loading_overlay.destroy()
+            except (tk.TclError, AttributeError):
+                pass
+            self.app.show_screen('home', profile=profile)
+
+        self.after(300, _go)
 
     def prepare(self, **kwargs):
         pass  # nothing to prepare for profile screen

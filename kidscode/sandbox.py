@@ -101,7 +101,6 @@ def _make_safe_builtins(extra_allowed=None):
         'ImportError': ImportError, 'ModuleNotFoundError': ModuleNotFoundError,
         # Misc helpers
         'iter': iter, 'next': next, 'all': all, 'any': any,
-        'getattr': getattr, 'setattr': setattr,
         'id': id,
     }
     if extra_allowed:

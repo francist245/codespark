@@ -115,15 +115,16 @@ JOSHUA_MODULES = [
                         'content': (
                             "Let's make the computer say something!\n\n"
                             "We use  print()  to make the computer display words.\n\n"
-                            "Try typing this code and pressing the RUN button:\n\n"
-                            '    print("Hello, World!")'
+                            "Press the big green RUN button to try it!\n\n"
+                            "Then change the words inside the speech marks!"
                         ),
                         'voice': (
                             "Now it is your turn! "
                             "We use the word print with brackets to make the computer display words. "
-                            "Try typing the code shown and press the big green Run button!"
+                            "Press the big green Run button to try it, then change the words!"
                         ),
                         'starter_code': 'print("Hello, World!")',
+                        'prefill': True,
                         'expected_output': 'Hello, World!',
                         'hints': [
                             'Make sure you have speech marks " " around the words!',
@@ -205,6 +206,7 @@ JOSHUA_MODULES = [
                             'print("Joshua")\n'
                             'print("Joshua is AWESOME! 🌟")'
                         ),
+                        'prefill': True,
                         'expected_output': None,  # Free-form exercise
                         'hints': [
                             'You can change what is in the speech marks to anything you like!',
@@ -338,6 +340,7 @@ JOSHUA_MODULES = [
                             'print("My name is", name)\n'
                             'print("I am", age, "years old")'
                         ),
+                        'prefill': True,
                         'expected_output': None,
                         'hints': [
                             'Text (words) go in speech marks: "like this"',
@@ -419,6 +422,7 @@ JOSHUA_MODULES = [
                             'favourite_colour = "blue"\n'
                             'print("Now my favourite colour is", favourite_colour)'
                         ),
+                        'prefill': True,
                         'expected_output': None,
                         'hints': ['Change the colour names in the speech marks!'],
                     },
@@ -491,6 +495,7 @@ JOSHUA_MODULES = [
                             'name = input("What is your name? ")\n'
                             'print("Hello,", name, "! Nice to meet you! 👋")'
                         ),
+                        'prefill': True,
                         'expected_output': None,
                         'hints': ['Press Run and type your name when asked!'],
                     },
@@ -595,6 +600,7 @@ JOSHUA_MODULES = [
                             'else:\n'
                             '    print("❌ Oops! That is not right. Try again!")'
                         ),
+                        'prefill': True,
                         'expected_output': None,
                         'hints': [
                             'Try typing exactly: dragon',
@@ -715,6 +721,7 @@ JOSHUA_MODULES = [
                             'for number in range(1, 11):\n'
                             '    print(number)'
                         ),
+                        'prefill': True,
                         'expected_output': '1\n2\n3\n4\n5\n6\n7\n8\n9\n10',
                         'hints': [
                             'range(1, 11) starts at 1 and goes up to but not including 11',
@@ -816,6 +823,7 @@ JOSHUA_MODULES = [
                             'else:\n'
                             '    print(f"❌ Not quite! The number was {secret}. Try again! 😊")'
                         ),
+                        'prefill': True,
                         'expected_output': None,
                         'hints': [
                             'Try typing: 7 — that is the secret number!',

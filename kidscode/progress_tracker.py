@@ -2,6 +2,7 @@
 Progress Tracker - Saves and loads per-profile learning progress.
 Data stored in: ~/KidsCode/data/progress.json
 """
+import copy
 import json
 import os
 from pathlib import Path
@@ -44,7 +45,7 @@ class ProgressTracker:
                     return json.load(f)
             except (json.JSONDecodeError, OSError):
                 pass
-        return {'joshua': dict(DEFAULT_PROFILE), 'toby': dict(DEFAULT_PROFILE)}
+        return {'joshua': copy.deepcopy(DEFAULT_PROFILE), 'toby': copy.deepcopy(DEFAULT_PROFILE)}
 
     def save(self):
         try:
@@ -55,12 +56,12 @@ class ProgressTracker:
 
     def _profile(self, profile: str) -> dict:
         if profile not in self._data:
-            self._data[profile] = dict(DEFAULT_PROFILE)
+            self._data[profile] = copy.deepcopy(DEFAULT_PROFILE)
         p = self._data[profile]
         # Back-fill any missing keys from DEFAULT_PROFILE
         for k, v in DEFAULT_PROFILE.items():
             if k not in p:
-                p[k] = v
+                p[k] = copy.deepcopy(v)
         return p
 
     # ------------------------------------------------------------------

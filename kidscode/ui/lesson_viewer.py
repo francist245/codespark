@@ -121,8 +121,9 @@ class LessonViewer(tk.Frame):
 
         # Voice toggle
         self._voice_on = tk.BooleanVar(value=True)
+        voice_label = '🔊 Voice' if self.app.current_profile == 'joshua' else '🔊'
         tk.Checkbutton(
-            header, text='🔊',
+            header, text=voice_label,
             variable=self._voice_on,
             bg=s['primary'], fg='white',
             font=(s['font'], 14),
@@ -170,6 +171,16 @@ class LessonViewer(tk.Frame):
         self._dots_frame.pack(side='left', padx=20)
 
         # Buttons
+        self._prev_btn = tk.Button(
+            footer, text='← Back',
+            bg='#21262d', fg='#aaa',
+            font=(s['font'], 12),
+            relief='flat', bd=0, padx=12, pady=6,
+            cursor='hand2',
+            command=self._prev_step,
+        )
+        self._prev_btn.pack(side='right', padx=(0, 8))
+
         self._next_btn = tk.Button(
             footer, text='Next →',
             bg=s['primary'], fg='white',
@@ -221,6 +232,12 @@ class LessonViewer(tk.Frame):
         self._step_label.configure(text=f'Step {current} of {total}')
         self._update_dots(current, total)
         self._hint_idx = 0
+
+        # Show/hide prev button (disabled on first step)
+        if self._step_idx == 0:
+            self._prev_btn.configure(state='disabled', fg='#555')
+        else:
+            self._prev_btn.configure(state='normal', fg='#aaa')
 
         # Show/hide hint button based on whether this step has hints
         self._current_step_hints = step.get('hints', [])
@@ -336,11 +353,35 @@ class LessonViewer(tk.Frame):
             code_text.configure(state='disabled')
             code_text.pack(fill='both')
 
-            # Try it button
+            # "Try it" editor — empty so kids type the code themselves
+            profile = self.app.current_profile
+            prompt = '👆 Type the code above here and press Run Code!' if profile == 'joshua' else '👆 Type the code above and click Run Code'
+            tk.Label(
+                inner, text=prompt,
+                bg=s['card_bg'], fg='#fbbf24',
+                font=(s['font'], max(12, s['font_size'] - 2), 'bold'),
+                wraplength=900, anchor='w',
+            ).pack(anchor='w', padx=40, pady=(12, 4))
+
+            # "Copy to my code!" button — helps younger children who can't type it
             from kidscode.ui.code_editor import CodeEditor
             editor = CodeEditor(inner, self.app, profile=self.app.current_profile, height=8)
-            editor.pack(fill='x', padx=40, pady=(8, 20))
-            editor.set_code(step['code'])
+
+            copy_label = '📋 Copy to my code!' if profile == 'joshua' else '📋 Copy code'
+            copy_font = max(14, s['font_size'] - 2)
+            def _copy_to_editor(ed=editor, code=step['code']):
+                ed.set_code(code)
+            tk.Button(
+                inner, text=copy_label,
+                bg='#1c2333', fg='#58a6ff',
+                font=(s['font'], copy_font),
+                relief='flat', bd=0, padx=16, pady=4, cursor='hand2',
+                command=_copy_to_editor,
+            ).pack(anchor='w', padx=40, pady=(0, 4))
+
+            editor.pack(fill='x', padx=40, pady=(4, 20))
+            # Store the example code for Reset button, but leave editor empty
+            editor._starter_code = step['code']
 
     # ── EXERCISE ───────────────────────────────────────────────────
 
@@ -396,8 +437,13 @@ class LessonViewer(tk.Frame):
         self._editor = CodeEditor(right, self.app, profile=self.app.current_profile, height=14)
         self._editor.pack(fill='both', expand=True, padx=0, pady=0)
 
-        if step.get('starter_code'):
+        # Only pre-fill if exercise explicitly requests it (e.g. 'prefill': True)
+        # Otherwise kids should type the code themselves
+        if step.get('prefill') and step.get('starter_code'):
             self._editor.set_code(step['starter_code'])
+        elif step.get('starter_code'):
+            # Store for Reset button, but don't pre-fill
+            self._editor._starter_code = step['starter_code']
 
         # Hook run results to check answer
         expected = step.get('expected_output')
@@ -425,8 +471,11 @@ class LessonViewer(tk.Frame):
         self._editor = CodeEditor(inner, self.app, profile='joshua', height=10)
         self._editor.pack(fill='x')
 
-        if step.get('starter_code'):
+        # Only pre-fill if exercise explicitly requests it
+        if step.get('prefill') and step.get('starter_code'):
             self._editor.set_code(step['starter_code'])
+        elif step.get('starter_code'):
+            self._editor._starter_code = step['starter_code']
 
         expected = step.get('expected_output')
         self._current_step_hints = step.get('hints', [])
@@ -569,6 +618,12 @@ class LessonViewer(tk.Frame):
             self._step_cache[self._lesson['id']] = self._step_idx + 1
         self._step_idx += 1
         self._show_step()
+
+    def _prev_step(self):
+        """Go back to the previous step."""
+        if self._step_idx > 0:
+            self._step_idx -= 1
+            self._show_step()
 
     def _show_hint(self):
         hints = getattr(self, '_current_step_hints', [])
