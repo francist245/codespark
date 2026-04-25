@@ -21,16 +21,16 @@ That's it! First launch installs any missing packages automatically.
 | Module | Topics |
 |--------|--------|
 | 🐍 Python Foundations | Variables, data types, maths, f-strings, I/O |
-| 🔀 Making Decisions | if/elif/else, comparison & logical operators |
+| 🔀 Making Decisions | if/elif/else, nested conditionals, complex logic |
 | 🔁 Loops | for, while, range, break/continue, FizzBuzz |
-| 🔧 Functions *(coming)* | def, parameters, return, scope, lambdas |
-| 📚 Data Structures *(coming)* | Lists, dicts, tuples, sets |
-| 🏗️ OOP *(coming)* | Classes, objects, inheritance |
-| 📁 Files & Exceptions *(coming)* | File I/O, try/except, JSON |
-| 🌐 Networking *(coming)* | Internet, HTTP, APIs, web scraping (ethical) |
-| ☁️ Azure & Cloud *(coming)* | Azure VMs, Storage, Functions, AI services |
-| 🤖 AI & Machine Learning *(coming)* | ML concepts, scikit-learn, AI ethics |
-| 🎮 Game Development *(coming)* | pygame: Pong → Platform game → Tetris |
+| 🔧 Functions | def, parameters, return, scope, Text RPG project |
+| 📚 Data Structures | Lists, dicts, tuples, sets |
+| 🏗️ OOP | Classes, objects, inheritance, polymorphism, RPG project |
+| 📁 Error Handling & Data | try/except/finally, JSON parsing |
+| 🌐 How the Internet Works | IP, DNS, HTTP, APIs, REST concepts |
+| ☁️ Azure & The Cloud | Cloud computing, Azure services, Met Office supercomputer |
+| 🤖 AI & Machine Learning | ML concepts, KNN classifier, AI ethics |
+| 🎮 Game Development | Text games, ASCII art, dungeon crawler project |
 
 ---
 
@@ -41,18 +41,20 @@ That's it! First launch installs any missing packages automatically.
 | 🖥️ Hello, Computer! | What computers are, print(), first programs |
 | 🎩 Magic Variables | Variables as labelled boxes, = assignment |
 | 💬 Ask and Answer | input(), interactive programs |
-| 🤔 Yes or No? | if/else decisions, simple password checker |
-| 🔄 Do It Again! | for loops, range(), counting |
-| 🎮 My First Game! | Number guessing game — using everything! |
+| 🤔 Yes or No? *(with a grown-up)* | if/else decisions, simple password checker |
+| 🔄 Do It Again! *(with a grown-up)* | for loops, range(), counting |
+| 🎮 My First Game! *(with a grown-up)* | Number guessing game — using everything! |
 
 ---
 
 ## 🔒 Safety Features
 
 - **Sandboxed code execution** — dangerous modules (`os`, `subprocess`, `socket`, etc.) are blocked
-- **Age-appropriate restrictions** — Joshua has tighter limits than Toby
+- **Age-appropriate restrictions** — Joshua has tighter limits than Toby (no classes, fewer modules)
+- **Profile-gated OOP** — `class` definitions only enabled for Toby (M6+ needs them)
 - **Content guardrails** — all exercises are educational, no network exploitation or harmful patterns
 - **Execution timeout** — infinite loops stop after 8 seconds
+- **69 automated tests** — sandbox security verified on every change
 
 ---
 
@@ -118,3 +120,13 @@ KidsCode/
 ---
 
 *Built with Python + tkinter + pyttsx3 · Completely offline · No data shared*
+
+---
+
+## 📊 Curriculum Stats
+
+| Profile | Modules | Lessons | Steps | Total XP |
+|---------|---------|---------|-------|----------|
+| Toby (10) | 11 | 26 | 122 | 3,475 |
+| Joshua (5) | 6 | 8 | 37 | 850 |
+| **Total** | **17** | **34** | **159** | **4,325** |
