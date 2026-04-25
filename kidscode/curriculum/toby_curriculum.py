@@ -8,10 +8,10 @@ Toby's Curriculum - Age 10
   M4:  Functions               - def, parameters, return, scope                 (fully built)
   M5:  Data Structures         - list, dict, tuple, set                         (fully built)
   M6:  Object-Oriented Python  - classes, init, self, inheritance, OOP project  (fully built)
-  M7:  Files & Exceptions      - file I/O, try/except, modules                  (stub)
-  M8:  Networking Basics       - internet, HTTP, APIs (conceptual + requests)   (stub)
-  M9:  Azure Fundamentals      - Cloud, Azure services, deploying (conceptual)  (stub)
-  M10: Introduction to AI/ML   - What is AI, data, ML concepts, ethics          (stub)
+  M7:  Error Handling & Data   - try/except/finally, JSON parsing               (fully built)
+  M8:  How the Internet Works  - IP, DNS, HTTP, APIs (conceptual, sandbox-safe) (fully built)
+  M9:  Azure & The Cloud       - Cloud concepts, Azure services tour            (fully built)
+  M10: Introduction to AI/ML   - AI vs ML, classifier from scratch, ethics      (fully built)
   M11: Game Development        - text-based games, ASCII art, dungeon crawler   (fully built)
 """
 
@@ -2395,128 +2395,1494 @@ TOBY_MODULES = [
         ],
     },
 
-    _stub_module(
-        't_m7', 'Files & Exceptions 📁', '📁',
-        'Read and write files, handle errors gracefully.',
-        'File Handler', '📁', '#FDCB6E',
-        ['t_m1', 't_m2', 't_m3', 't_m4', 't_m5'],
-        (
-            "Reading and writing files lets your programs REMEMBER things!\n\n"
-            "    with open('scores.txt', 'w') as f:\n"
-            '        f.write("Toby: 100\\n")\n\n'
-            "    with open('scores.txt', 'r') as f:\n"
-            "        data = f.read()\n\n"
-            "Exception handling catches errors gracefully:\n\n"
-            "    try:\n"
-            "        result = 10 / 0\n"
-            "    except ZeroDivisionError:\n"
-            '        print("Cannot divide by zero!")'
-        ),
-        (
-            "Reading and writing files lets your programs save and load data. "
-            "Exception handling catches errors gracefully so programs do not crash. "
-            "This module is coming soon!"
-        ),
-        ['Reading text files', 'Writing and appending', 'Working with CSV',
-         'JSON data', 'try/except/finally', 'Custom exceptions']
-    ),
+    # ================================================================
+    # MODULE 7: Error Handling & Data
+    # ================================================================
+    {
+        'id': 't_m7',
+        'title': 'Error Handling & Data 📁',
+        'icon': '📁',
+        'description': 'Stop crashes with try/except and learn the JSON format that powers the web.',
+        'badge': 'Error Handler',
+        'badge_icon': '📁',
+        'color': '#FDCB6E',
+        'prerequisite_modules': ['t_m1', 't_m2', 't_m3', 't_m4', 't_m5'],
+        'lessons': [
+            # ---- Lesson 1: try, except, finally ----
+            {
+                'id': 't_m7_l1',
+                'title': 'try, except, finally',
+                'icon': '🛡️',
+                'xp': 150,
+                'steps': [
+                    {
+                        'type': 'story',
+                        'title': 'Why Programs Crash 💥',
+                        'content': (
+                            "Agent Toby — every program eventually meets the unexpected.\n\n"
+                            "A user types 'twelve' instead of '12'. A file goes missing.\n"
+                            "Someone divides by zero. Without protection, the program\n"
+                            "CRASHES — and the user sees a scary red error.\n\n"
+                            "Real apps (Spotify, Xbox, your bank) NEVER crash like that.\n"
+                            "They use a Python superpower called EXCEPTION HANDLING:\n\n"
+                            "    try:    'attempt the risky thing'\n"
+                            "    except: 'catch the problem and recover'\n"
+                            "    finally:'always tidy up afterwards'\n\n"
+                            "Today you become a crash-proof coder. 🛡️"
+                        ),
+                        'voice': (
+                            "Every program eventually meets the unexpected. "
+                            "Real apps never crash — they catch problems with try and except. "
+                            "Today you become a crash-proof coder!"
+                        ),
+                    },
+                    {
+                        'type': 'teach',
+                        'title': 'try / except / else / finally',
+                        'content': (
+                            "The basic shape:\n"
+                            "    try:\n"
+                            "        risky_code()\n"
+                            "    except ValueError:\n"
+                            '        print("Bad value!")\n\n'
+                            "Common exception types:\n"
+                            "  ValueError        — wrong type of value (int('abc'))\n"
+                            "  ZeroDivisionError — dividing by zero\n"
+                            "  KeyError          — dict key missing\n"
+                            "  IndexError        — list index out of range\n"
+                            "  TypeError         — wrong type used\n\n"
+                            "Catch SEVERAL with multiple except blocks:\n"
+                            "    try:\n"
+                            "        x = int(text)\n"
+                            "        y = 10 / x\n"
+                            "    except ValueError:\n"
+                            '        print("Not a number")\n'
+                            "    except ZeroDivisionError:\n"
+                            '        print("Cannot divide by zero")\n\n'
+                            "Bonus clauses:\n"
+                            "  else    — runs if NO exception happened\n"
+                            "  finally — runs ALWAYS (cleanup, even after errors)"
+                        ),
+                        'voice': (
+                            "Wrap risky code in try. Catch errors with except, naming the type. "
+                            "Use multiple except blocks for different errors. "
+                            "Else runs when nothing went wrong. Finally always runs at the end."
+                        ),
+                    },
+                    {
+                        'type': 'example',
+                        'title': 'Safe Number Validator',
+                        'content': 'Watch how try/except handles bad input gracefully:',
+                        'voice': 'Watch how try and except handle bad input without crashing.',
+                        'code': (
+                            'inputs = ["42", "hello", "7", "3.14", "0"]\n'
+                            '\n'
+                            'for raw in inputs:\n'
+                            '    print(f"Trying: {raw!r}")\n'
+                            '    try:\n'
+                            '        number = int(raw)\n'
+                            '        result = 100 / number\n'
+                            '    except ValueError:\n'
+                            '        print("  ❌ Not a whole number")\n'
+                            '    except ZeroDivisionError:\n'
+                            '        print("  ❌ Cannot divide by zero")\n'
+                            '    else:\n'
+                            '        print(f"  ✅ 100 / {number} = {result}")\n'
+                            '    finally:\n'
+                            '        print("  (done with this input)")\n'
+                            '\n'
+                            'print("\\nProgram finished without crashing! 🛡️")'
+                        ),
+                        'expected_output': None,
+                    },
+                    {
+                        'type': 'exercise',
+                        'title': 'Crash-Proof Calculator 🧮',
+                        'content': (
+                            "Build a calculator that NEVER crashes!\n\n"
+                            "Loop over the test_cases list. Each case is (a, b, op).\n"
+                            "  • Convert a and b to int using int()\n"
+                            "  • Perform the operation: '+', '-', '*', '/'\n"
+                            "  • Catch ValueError if int() fails\n"
+                            "  • Catch ZeroDivisionError on divide-by-zero\n"
+                            "  • Print a friendly message in every case\n\n"
+                            "Complete the TODOs!"
+                        ),
+                        'voice': (
+                            "Build a calculator that never crashes. "
+                            "Convert the inputs to integers, perform the operation, "
+                            "and catch every error with friendly messages."
+                        ),
+                        'starter_code': (
+                            'test_cases = [\n'
+                            '    ("10", "2", "/"),\n'
+                            '    ("10", "0", "/"),\n'
+                            '    ("abc", "2", "+"),\n'
+                            '    ("8", "3", "*"),\n'
+                            '    ("20", "5", "-"),\n'
+                            ']\n'
+                            '\n'
+                            'print("=== 🛡️  CRASH-PROOF CALCULATOR ===\\n")\n'
+                            '\n'
+                            'for a, b, op in test_cases:\n'
+                            '    print(f"{a} {op} {b}  ->", end=" ")\n'
+                            '    try:\n'
+                            '        # TODO: convert a and b with int()\n'
+                            '        x = 0\n'
+                            '        y = 0\n'
+                            '\n'
+                            '        # TODO: do the right operation based on op\n'
+                            '        # use if / elif for "+", "-", "*", "/"\n'
+                            '        result = None\n'
+                            '\n'
+                            '        print(f"✅ {result}")\n'
+                            '    except ValueError:\n'
+                            '        # TODO: print a message about bad numbers\n'
+                            '        pass\n'
+                            '    except ZeroDivisionError:\n'
+                            '        # TODO: print a message about divide-by-zero\n'
+                            '        pass\n'
+                            '    finally:\n'
+                            '        pass\n'
+                            '\n'
+                            'print("\\nAll done — no crashes! 🎉")'
+                        ),
+                        'expected_output': None,
+                        'hints': [
+                            'Use int(a) and int(b) inside the try block.',
+                            'For "/", check b first or just let ZeroDivisionError catch it.',
+                            'In the except blocks, print messages like "❌ Not a number" or "❌ Cannot divide by zero".',
+                        ],
+                    },
+                    {
+                        'type': 'quiz',
+                        'title': 'Finally Quiz',
+                        'question': 'What does the `finally` block do?',
+                        'voice': 'Quiz! What does the finally block do?',
+                        'options': [
+                            'Runs only if there is an error',
+                            'Runs only if there is NO error',
+                            'Runs ALWAYS, error or not — perfect for cleanup',
+                            'Runs before the try block',
+                        ],
+                        'answer': 2,
+                        'explanation': (
+                            "`finally` runs no matter what — whether the try succeeded "
+                            "or an exception was raised. It is perfect for closing files, "
+                            "releasing resources, or final messages."
+                        ),
+                        'explanation_voice': (
+                            "Finally runs no matter what — success or error. "
+                            "It is perfect for cleanup like closing files."
+                        ),
+                    },
+                ],
+            },
+            # ---- Lesson 2: Working with JSON Data ----
+            {
+                'id': 't_m7_l2',
+                'title': 'Working with JSON Data',
+                'icon': '🗂️',
+                'xp': 150,
+                'steps': [
+                    {
+                        'type': 'story',
+                        'title': 'The Language of the Web 🌐',
+                        'content': (
+                            "Agent Toby — when Spotify sends song info to your phone,\n"
+                            "or your weather app gets a forecast, the data travels in a\n"
+                            "format called JSON — JavaScript Object Notation.\n\n"
+                            "JSON looks just like a Python dict:\n\n"
+                            "    {\n"
+                            '      "name": "Toby",\n'
+                            '      "level": 10,\n'
+                            '      "skills": ["python", "games"]\n'
+                            "    }\n\n"
+                            "Every API on the planet speaks JSON. Master it now and\n"
+                            "you can talk to ANY web service. 🚀"
+                        ),
+                        'voice': (
+                            "JSON is the language of the web. "
+                            "Every API uses it. Master JSON and you can talk to any web service!"
+                        ),
+                    },
+                    {
+                        'type': 'teach',
+                        'title': 'json.loads and json.dumps',
+                        'content': (
+                            "Python has a built-in module: json.\n\n"
+                            "    import json\n\n"
+                            "Two main functions:\n"
+                            "  json.loads(text)  — STRING  -> Python dict/list\n"
+                            "  json.dumps(data)  — Python  -> JSON string\n\n"
+                            "Example:\n"
+                            '    text = \'{"name": "Toby", "xp": 500}\'\n'
+                            "    data = json.loads(text)\n"
+                            '    print(data["name"])      # Toby\n'
+                            '    print(data["xp"] + 10)   # 510\n\n'
+                            "Going the other way:\n"
+                            '    pretty = json.dumps(data, indent=2)\n'
+                            "    print(pretty)\n\n"
+                            "JSON ↔ Python conversions:\n"
+                            "  object  ↔ dict\n"
+                            "  array   ↔ list\n"
+                            "  string  ↔ str\n"
+                            "  number  ↔ int / float\n"
+                            "  true    ↔ True\n"
+                            "  null    ↔ None"
+                        ),
+                        'voice': (
+                            "Import json. Use json dot loads to turn a string into a dict. "
+                            "Use json dot dumps to turn data back into a string. "
+                            "Add indent equals two for pretty printing."
+                        ),
+                    },
+                    {
+                        'type': 'example',
+                        'title': 'Parsing a Weather Response',
+                        'content': 'Pretend a weather API sent us this JSON. We will read it!',
+                        'voice': 'Pretend a weather API sent us this JSON. Let us read it!',
+                        'code': (
+                            'import json\n'
+                            '\n'
+                            'response = """\n'
+                            '{\n'
+                            '  "city": "Manchester",\n'
+                            '  "country": "UK",\n'
+                            '  "current": {\n'
+                            '    "temp_c": 12,\n'
+                            '    "condition": "Cloudy",\n'
+                            '    "wind_mph": 8\n'
+                            '  },\n'
+                            '  "forecast": [\n'
+                            '    {"day": "Mon", "high": 14, "low": 9},\n'
+                            '    {"day": "Tue", "high": 13, "low": 7},\n'
+                            '    {"day": "Wed", "high": 15, "low": 10}\n'
+                            '  ]\n'
+                            '}\n'
+                            '"""\n'
+                            '\n'
+                            'data = json.loads(response)\n'
+                            '\n'
+                            'print(f"📍 {data[\'city\']}, {data[\'country\']}")\n'
+                            'print(f"🌡️  Now: {data[\'current\'][\'temp_c\']}°C, {data[\'current\'][\'condition\']}")\n'
+                            'print(f"💨 Wind: {data[\'current\'][\'wind_mph\']} mph\\n")\n'
+                            '\n'
+                            'print("3-day forecast:")\n'
+                            'for day in data["forecast"]:\n'
+                            '    print(f"  {day[\'day\']}: {day[\'low\']}°C to {day[\'high\']}°C")\n'
+                            '\n'
+                            'print("\\nPretty JSON:")\n'
+                            'print(json.dumps(data["current"], indent=2))'
+                        ),
+                        'expected_output': None,
+                    },
+                    {
+                        'type': 'exercise',
+                        'title': 'Student Records System 🎓',
+                        'content': (
+                            "Build a mini records system that reads JSON student data.\n\n"
+                            "  1. Parse the JSON string with json.loads()\n"
+                            "  2. Loop over each student and print their summary\n"
+                            "  3. Calculate the AVERAGE score across all students\n"
+                            "  4. Find and print the student with the HIGHEST average\n"
+                            "  5. Output a pretty JSON summary using json.dumps(..., indent=2)\n\n"
+                            "Complete the TODOs!"
+                        ),
+                        'voice': (
+                            "Build a student records system. "
+                            "Parse the JSON, loop the students, find the highest average, "
+                            "and print a pretty JSON summary."
+                        ),
+                        'starter_code': (
+                            'import json\n'
+                            '\n'
+                            'records_text = """\n'
+                            '[\n'
+                            '  {"name": "Toby",  "scores": [85, 92, 78]},\n'
+                            '  {"name": "Lara",  "scores": [70, 75, 80]},\n'
+                            '  {"name": "Aiden", "scores": [95, 88, 91]},\n'
+                            '  {"name": "Mei",   "scores": [60, 72, 68]}\n'
+                            ']\n'
+                            '"""\n'
+                            '\n'
+                            '# TODO: parse records_text into a Python list\n'
+                            'students = []\n'
+                            '\n'
+                            'print("=== 🎓 STUDENT RECORDS ===\\n")\n'
+                            '\n'
+                            'top_name = ""\n'
+                            'top_avg = -1\n'
+                            '\n'
+                            'for s in students:\n'
+                            '    # TODO: compute average of s["scores"]\n'
+                            '    avg = 0\n'
+                            '    print(f"{s[\'name\']:6}  scores: {s[\'scores\']}  avg: {avg:.1f}")\n'
+                            '\n'
+                            '    # TODO: track the highest avg in top_name / top_avg\n'
+                            '    pass\n'
+                            '\n'
+                            'print(f"\\n🏆 Top student: {top_name} ({top_avg:.1f})")\n'
+                            '\n'
+                            '# TODO: build a summary dict and print it pretty\n'
+                            'summary = {"top": top_name, "top_avg": top_avg, "count": len(students)}\n'
+                            'print("\\nSummary JSON:")\n'
+                            'print(json.dumps(summary, indent=2))'
+                        ),
+                        'expected_output': None,
+                        'hints': [
+                            'Parse with: students = json.loads(records_text)',
+                            'Average: avg = sum(s["scores"]) / len(s["scores"])',
+                            'Track top: if avg > top_avg: top_avg = avg; top_name = s["name"]',
+                        ],
+                    },
+                    {
+                        'type': 'quiz',
+                        'title': 'JSON Quiz',
+                        'question': 'When you json.loads() a JSON object like {"a": 1}, what Python type do you get?',
+                        'voice': 'Quiz! When you json dot loads a JSON object, what Python type do you get?',
+                        'options': [
+                            'A list',
+                            'A string',
+                            'A dict',
+                            'A tuple',
+                        ],
+                        'answer': 2,
+                        'explanation': (
+                            "JSON objects (in curly braces with key/value pairs) become "
+                            "Python dicts. JSON arrays (square brackets) become Python lists."
+                        ),
+                        'explanation_voice': (
+                            "JSON objects with curly braces become Python dicts. "
+                            "JSON arrays with square brackets become Python lists."
+                        ),
+                    },
+                ],
+            },
+        ],
+    },
 
-    _stub_module(
-        't_m8', 'Networking Basics 🌐', '🌐',
-        'Understand how the internet works and make Python talk to web services.',
-        'Network Explorer', '🌐', '#74B9FF',
-        ['t_m1', 't_m2', 't_m3', 't_m4', 't_m5', 't_m6', 't_m7'],
-        (
-            "The internet connects millions of computers together!\n\n"
-            "Key concepts:\n"
-            "  🌍  IP addresses — unique addresses for each device\n"
-            "  🚪  Ports — specific 'doors' for different services\n"
-            "  📨  HTTP/HTTPS — the language of the web\n"
-            "  🔗  APIs — ways programs talk to each other\n\n"
-            "In Python, the requests library makes HTTP calls easy.\n"
-            "For example, to get data from a weather API:\n\n"
-            "    response = requests.get(url)\n"
-            "    data = response.json()    # returns a dict!\n\n"
-            "⚠️  This module requires internet access for some exercises."
-        ),
-        (
-            "The internet connects millions of computers together! "
-            "You will learn about IP addresses, ports, HTTP, and APIs. "
-            "Python's requests library makes it easy to talk to web services. "
-            "This module is coming soon!"
-        ),
-        ['How the internet works (conceptual)',
-         'IP addresses, DNS, and ports',
-         'HTTP/HTTPS — GET, POST, status codes',
-         'Working with JSON APIs',
-         'Building a weather checker with a free API',
-         'Introduction to web scraping (ethical)']
-    ),
+    # ================================================================
+    # MODULE 8: How the Internet Works
+    # ================================================================
+    {
+        'id': 't_m8',
+        'title': 'How the Internet Works 🌐',
+        'icon': '🌐',
+        'description': 'Lift the lid on the internet — IP, DNS, HTTP, status codes, and APIs.',
+        'badge': 'Network Explorer',
+        'badge_icon': '🌐',
+        'color': '#74B9FF',
+        'prerequisite_modules': ['t_m1', 't_m2', 't_m3', 't_m4', 't_m5', 't_m6', 't_m7'],
+        'lessons': [
+            # ---- Lesson 1: The Internet Explained ----
+            {
+                'id': 't_m8_l1',
+                'title': 'The Internet Explained',
+                'icon': '🌍',
+                'xp': 125,
+                'steps': [
+                    {
+                        'type': 'story',
+                        'title': 'From Click to Page 🖱️➡️🖥️',
+                        'content': (
+                            "Agent Toby — what actually happens when you type\n"
+                            "youtube.com and press Enter?\n\n"
+                            "  1. Your computer asks: 'where IS youtube.com?'\n"
+                            "  2. A DNS server replies with an IP address (142.250.x.x)\n"
+                            "  3. Your computer sends a HTTP request to that IP\n"
+                            "  4. YouTube's server sends back the page (in a response)\n"
+                            "  5. Your browser draws it on screen\n\n"
+                            "All of that — across thousands of miles — in a tenth of\n"
+                            "a second! 🚀  Today, we open the bonnet."
+                        ),
+                        'voice': (
+                            "When you type a website and press Enter, your computer asks DNS for the IP, "
+                            "sends an HTTP request, and the server replies with the page. "
+                            "All in a tenth of a second!"
+                        ),
+                    },
+                    {
+                        'type': 'teach',
+                        'title': 'IP, DNS, Ports, HTTP',
+                        'content': (
+                            "🌍 IP ADDRESS — every device's unique number\n"
+                            "    e.g. 142.250.190.46  (IPv4)  or  2607:f8b0::200e (IPv6)\n\n"
+                            "📒 DNS — the internet's phone book\n"
+                            "    youtube.com  →  142.250.190.46\n\n"
+                            "🚪 PORTS — doors on a computer (0–65535)\n"
+                            "    80   = HTTP   |  443 = HTTPS\n"
+                            "    22   = SSH    |  25  = email (SMTP)\n\n"
+                            "🔗 A URL has parts:\n"
+                            "    https :// www.bbc.co.uk : 443 / news ? id=42\n"
+                            "    └proto┘   └──domain───┘ └port┘ └path┘ └query┘\n\n"
+                            "📨 HTTP REQUEST/RESPONSE\n"
+                            "    Browser  ─── GET /news ───►  Server\n"
+                            "    Browser  ◄── 200 OK + html ── Server\n\n"
+                            "Status codes:\n"
+                            "  200 OK            ✅ all good\n"
+                            "  301 Moved         ↪️  go somewhere else\n"
+                            "  404 Not Found     🚫 page missing\n"
+                            "  500 Server Error  💥 server broke\n\n"
+                            "GET = ask for data.   POST = send data."
+                        ),
+                        'voice': (
+                            "IP addresses are device numbers. DNS turns names into IPs. "
+                            "Ports are doors on a computer — 80 for HTTP, 443 for HTTPS. "
+                            "GET asks for data, POST sends data. Status 200 means OK, 404 means not found."
+                        ),
+                    },
+                    {
+                        'type': 'example',
+                        'title': 'Simulating an HTTP Round-Trip',
+                        'content': 'Let us pretend to be the browser AND the server!',
+                        'voice': 'Let us pretend to be the browser and the server!',
+                        'code': (
+                            'def make_request(method, path):\n'
+                            '    return {"method": method, "path": path, "headers": {"Host": "kids.code"}}\n'
+                            '\n'
+                            'def server_handle(request):\n'
+                            '    pages = {\n'
+                            '        "/":      ("200 OK",        "<h1>Welcome!</h1>"),\n'
+                            '        "/news":  ("200 OK",        "<h1>Latest news</h1>"),\n'
+                            '        "/old":   ("301 Moved",     "Go to /new"),\n'
+                            '    }\n'
+                            '    if request["path"] in pages:\n'
+                            '        status, body = pages[request["path"]]\n'
+                            '    else:\n'
+                            '        status, body = "404 Not Found", "<h1>Oops!</h1>"\n'
+                            '    return {"status": status, "body": body}\n'
+                            '\n'
+                            'for path in ["/", "/news", "/old", "/missing"]:\n'
+                            '    req = make_request("GET", path)\n'
+                            '    res = server_handle(req)\n'
+                            '    print(f"GET {path:10} -> {res[\'status\']:14} | body: {res[\'body\']}")\n'
+                            '\n'
+                            'print("\\n💡 Real browsers do this on every link click!")'
+                        ),
+                        'expected_output': None,
+                    },
+                    {
+                        'type': 'exercise',
+                        'title': 'URL Parser 🔗',
+                        'content': (
+                            "Build a parser that splits a URL into its parts.\n\n"
+                            "  • protocol  (before ://)\n"
+                            "  • domain    (after :// up to next / or ?)\n"
+                            "  • path      (the /something part, '/' if missing)\n"
+                            "  • query     (after ?, '' if missing)\n\n"
+                            "Use string methods: split, find, startswith.\n"
+                            "Print each part for every URL in the urls list."
+                        ),
+                        'voice': (
+                            "Build a URL parser. Split the URL into protocol, domain, path, and query. "
+                            "Use string methods like split and find."
+                        ),
+                        'starter_code': (
+                            'urls = [\n'
+                            '    "https://www.bbc.co.uk/news?id=42",\n'
+                            '    "http://kids.code/games",\n'
+                            '    "https://example.com",\n'
+                            ']\n'
+                            '\n'
+                            'def parse_url(url):\n'
+                            '    # TODO: split off the protocol using "://"\n'
+                            '    protocol = "?"\n'
+                            '    rest = url\n'
+                            '\n'
+                            '    # TODO: split rest into (domain_and_path, query)\n'
+                            '    # query is whatever comes after "?" — empty string if no "?"\n'
+                            '    query = ""\n'
+                            '\n'
+                            '    # TODO: split domain_and_path on the FIRST "/"\n'
+                            '    # if there is no "/", path is "/"\n'
+                            '    domain = "?"\n'
+                            '    path = "/"\n'
+                            '\n'
+                            '    return {"protocol": protocol, "domain": domain, "path": path, "query": query}\n'
+                            '\n'
+                            'for u in urls:\n'
+                            '    parts = parse_url(u)\n'
+                            '    print(f"\\nURL: {u}")\n'
+                            '    for k, v in parts.items():\n'
+                            '        print(f"  {k:9}: {v!r}")'
+                        ),
+                        'expected_output': None,
+                        'hints': [
+                            'Use url.split("://", 1) to split the protocol from the rest.',
+                            'For the query: if "?" in rest: rest, query = rest.split("?", 1)',
+                            'For domain/path: if "/" in rest: domain, path_tail = rest.split("/", 1); path = "/" + path_tail',
+                        ],
+                    },
+                    {
+                        'type': 'quiz',
+                        'title': '404 Quiz',
+                        'question': 'What does HTTP status code 404 mean?',
+                        'voice': 'Quiz! What does HTTP status 404 mean?',
+                        'options': [
+                            'The server is broken',
+                            'Everything worked perfectly',
+                            'The page or resource was not found',
+                            'You need to log in',
+                        ],
+                        'answer': 2,
+                        'explanation': (
+                            "404 Not Found means the server understood your request but "
+                            "could not find the page or resource you asked for. "
+                            "200 = OK, 500 = server error, 401 = need to log in."
+                        ),
+                        'explanation_voice': (
+                            "404 means the page was not found. "
+                            "200 is OK, 500 is a server error."
+                        ),
+                    },
+                ],
+            },
+            # ---- Lesson 2: APIs & JSON ----
+            {
+                'id': 't_m8_l2',
+                'title': 'APIs & JSON',
+                'icon': '🔌',
+                'xp': 150,
+                'steps': [
+                    {
+                        'type': 'story',
+                        'title': 'Programs Talking to Programs 🤝',
+                        'content': (
+                            "Agent Toby — websites are for HUMANS.\n"
+                            "APIs are for PROGRAMS.\n\n"
+                            "When your weather app shows tomorrow's forecast, it called\n"
+                            "an API. When Xbox loads your friends list, that is an API.\n"
+                            "When ChatGPT answers a question — yep, an API.\n\n"
+                            "API stands for Application Programming Interface. Think of\n"
+                            "it as a MENU at a restaurant — you do not see the kitchen,\n"
+                            "you just order from the menu and food arrives. 🍽️"
+                        ),
+                        'voice': (
+                            "APIs are how programs talk to programs. "
+                            "API stands for Application Programming Interface — "
+                            "like a restaurant menu, you order and the data arrives!"
+                        ),
+                    },
+                    {
+                        'type': 'teach',
+                        'title': 'REST, Endpoints, Requests',
+                        'content': (
+                            "REST is the most common style of API.\n\n"
+                            "Every action is a HTTP request to an ENDPOINT (a URL):\n\n"
+                            "  GET    /users           — list all users\n"
+                            "  GET    /users/42        — get user 42\n"
+                            "  POST   /users          — create a new user\n"
+                            "  PUT    /users/42        — update user 42\n"
+                            "  DELETE /users/42        — delete user 42\n\n"
+                            "Requests usually carry JSON in the body:\n"
+                            "    POST /users\n"
+                            '    {"name": "Toby", "age": 10}\n\n'
+                            "Responses come back as JSON too:\n"
+                            "    200 OK\n"
+                            '    {"id": 42, "name": "Toby", "age": 10}\n\n'
+                            "GOOD APIs are PREDICTABLE: same URL pattern,\n"
+                            "same JSON shapes, clear status codes."
+                        ),
+                        'voice': (
+                            "REST APIs use HTTP methods: GET to read, POST to create, "
+                            "PUT to update, DELETE to remove. "
+                            "Requests and responses both use JSON."
+                        ),
+                    },
+                    {
+                        'type': 'example',
+                        'title': 'Mock REST API',
+                        'content': 'A pretend API server with users — fully working in the sandbox!',
+                        'voice': 'A pretend API server with users — fully working in the sandbox!',
+                        'code': (
+                            'import json\n'
+                            '\n'
+                            'database = {\n'
+                            '    1: {"id": 1, "name": "Toby",  "xp": 500},\n'
+                            '    2: {"id": 2, "name": "Lara",  "xp": 320},\n'
+                            '}\n'
+                            'next_id = 3\n'
+                            '\n'
+                            'def api(method, path, body=None):\n'
+                            '    global next_id\n'
+                            '    if method == "GET" and path == "/users":\n'
+                            '        return 200, list(database.values())\n'
+                            '    if method == "GET" and path.startswith("/users/"):\n'
+                            '        uid = int(path.split("/")[-1])\n'
+                            '        if uid in database:\n'
+                            '            return 200, database[uid]\n'
+                            '        return 404, {"error": "user not found"}\n'
+                            '    if method == "POST" and path == "/users":\n'
+                            '        new = {"id": next_id, **body}\n'
+                            '        database[next_id] = new\n'
+                            '        next_id += 1\n'
+                            '        return 201, new\n'
+                            '    return 400, {"error": "bad request"}\n'
+                            '\n'
+                            'def call(method, path, body=None):\n'
+                            '    status, data = api(method, path, body)\n'
+                            '    print(f"{method} {path} -> {status}")\n'
+                            '    print("  " + json.dumps(data))\n'
+                            '\n'
+                            'call("GET", "/users")\n'
+                            'call("GET", "/users/1")\n'
+                            'call("GET", "/users/99")\n'
+                            'call("POST", "/users", {"name": "Aiden", "xp": 0})\n'
+                            'call("GET", "/users")'
+                        ),
+                        'expected_output': None,
+                    },
+                    {
+                        'type': 'exercise',
+                        'title': 'Build a Mini API 🔌',
+                        'content': (
+                            "Build a mini API for a TODO list app.\n\n"
+                            "Implement these endpoints:\n"
+                            "  GET    /todos        — return list of all todos as JSON\n"
+                            "  GET    /todos/<id>   — return one todo, or 404\n"
+                            "  POST   /todos        — add a todo from body, return it with id\n\n"
+                            "Use the `db` dict as your fake database.\n"
+                            "Return (status, json_string) from api(). Complete the TODOs!"
+                        ),
+                        'voice': (
+                            "Build a mini todo API. "
+                            "Implement GET all, GET by id, and POST to add. "
+                            "Return status codes and JSON strings."
+                        ),
+                        'starter_code': (
+                            'import json\n'
+                            '\n'
+                            'db = {\n'
+                            '    1: {"id": 1, "task": "Tidy room", "done": False},\n'
+                            '    2: {"id": 2, "task": "Code Python", "done": True},\n'
+                            '}\n'
+                            'next_id = 3\n'
+                            '\n'
+                            'def api(method, path, body=None):\n'
+                            '    global next_id\n'
+                            '\n'
+                            '    # TODO: GET /todos -> 200 + json list of all todos\n'
+                            '    if method == "GET" and path == "/todos":\n'
+                            '        return 200, json.dumps([])\n'
+                            '\n'
+                            '    # TODO: GET /todos/<id> -> 200 + that todo, or 404\n'
+                            '    if method == "GET" and path.startswith("/todos/"):\n'
+                            '        return 404, json.dumps({"error": "not found"})\n'
+                            '\n'
+                            '    # TODO: POST /todos -> 201 + new todo with id (use next_id)\n'
+                            '    if method == "POST" and path == "/todos":\n'
+                            '        return 400, json.dumps({"error": "todo"})\n'
+                            '\n'
+                            '    return 400, json.dumps({"error": "bad request"})\n'
+                            '\n'
+                            '\n'
+                            'def call(method, path, body=None):\n'
+                            '    status, payload = api(method, path, body)\n'
+                            '    print(f"{method} {path} -> {status}  {payload}")\n'
+                            '\n'
+                            'call("GET",  "/todos")\n'
+                            'call("GET",  "/todos/1")\n'
+                            'call("GET",  "/todos/99")\n'
+                            'call("POST", "/todos", {"task": "Walk the dog", "done": False})\n'
+                            'call("GET",  "/todos")'
+                        ),
+                        'expected_output': None,
+                        'hints': [
+                            'GET all: return 200, json.dumps(list(db.values()))',
+                            'GET by id: uid = int(path.split("/")[-1]); if uid in db: return 200, json.dumps(db[uid])',
+                            'POST: new = {"id": next_id, **body}; db[next_id] = new; next_id += 1; return 201, json.dumps(new)',
+                        ],
+                    },
+                    {
+                        'type': 'quiz',
+                        'title': 'API Quiz',
+                        'question': 'What does API stand for?',
+                        'voice': 'Quiz! What does API stand for?',
+                        'options': [
+                            'Automatic Python Interface',
+                            'Application Programming Interface',
+                            'Advanced Page Internet',
+                            'A Programming Idea',
+                        ],
+                        'answer': 1,
+                        'explanation': (
+                            "API = Application Programming Interface. "
+                            "It is a defined way for one program to ask another program "
+                            "for data or to do something."
+                        ),
+                        'explanation_voice': (
+                            "API stands for Application Programming Interface — "
+                            "the way programs talk to other programs."
+                        ),
+                    },
+                ],
+            },
+        ],
+    },
 
-    _stub_module(
-        't_m9', 'Azure & The Cloud ☁️', '☁️',
-        'Discover cloud computing and how Azure powers the modern internet.',
-        'Cloud Pioneer', '☁️', '#A29BFE',
-        ['t_m1', 't_m2', 't_m3', 't_m4', 't_m5', 't_m6', 't_m7', 't_m8'],
-        (
-            "The Cloud means using computers over the internet instead of your own!\n\n"
-            "Microsoft Azure is one of the world's largest clouds:\n"
-            "  ☁️   Azure Virtual Machines — rent a computer in a data centre\n"
-            "  💾  Azure Storage — store files, blobs, and databases\n"
-            "  ⚡  Azure Functions — run code without managing servers\n"
-            "  🤖  Azure AI Services — ready-made AI for your apps\n"
-            "  🐳  Azure Container Apps — run Docker containers\n\n"
-            "Millions of companies use Azure — including the ones that built\n"
-            "Xbox, LinkedIn, and GitHub!"
-        ),
-        (
-            "The cloud means using computers over the internet. "
-            "Microsoft Azure is one of the world's largest cloud platforms. "
-            "You will learn about virtual machines, storage, serverless functions, "
-            "containers, and Azure AI services. This module is coming soon!"
-        ),
-        ['What is cloud computing?',
-         'Azure services overview (VMs, Storage, Functions, AI)',
-         'Azure Storage — blobs and queues',
-         'Azure Functions — serverless Python',
-         'Deploying a Python web app to Azure',
-         'Azure AI — vision, speech, language APIs']
-    ),
+    # ================================================================
+    # MODULE 9: Azure & The Cloud
+    # ================================================================
+    {
+        'id': 't_m9',
+        'title': 'Azure & The Cloud ☁️',
+        'icon': '☁️',
+        'description': 'Discover cloud computing and tour the Azure services that power the modern internet.',
+        'badge': 'Cloud Pioneer',
+        'badge_icon': '☁️',
+        'color': '#A29BFE',
+        'prerequisite_modules': ['t_m1', 't_m2', 't_m3', 't_m4', 't_m5', 't_m6', 't_m7', 't_m8'],
+        'lessons': [
+            # ---- Lesson 1: Cloud Computing Concepts ----
+            {
+                'id': 't_m9_l1',
+                'title': 'Cloud Computing Concepts',
+                'icon': '☁️',
+                'xp': 125,
+                'steps': [
+                    {
+                        'type': 'story',
+                        'title': 'What IS "the Cloud"? ☁️',
+                        'content': (
+                            "Agent Toby — people say 'it is in the cloud' all the time.\n"
+                            "But there is no actual cloud!\n\n"
+                            "The cloud = HUGE buildings called DATA CENTRES, full of\n"
+                            "thousands of computers, that you rent over the internet.\n\n"
+                            "  🏢  Microsoft has 300+ data centres worldwide\n"
+                            "  ❄️  Each one is the size of several football pitches\n"
+                            "  ⚡  Uses MEGAWATTS of power, cooled by giant fans\n\n"
+                            "Why use it instead of your own computer?\n"
+                            "  ✅ Pay only for what you use (like electricity)\n"
+                            "  ✅ Scale up instantly when busy\n"
+                            "  ✅ Never worry about hardware breaking\n"
+                            "  ✅ Available 24/7, anywhere in the world\n\n"
+                            "Today you learn the language of the cloud. 🚀"
+                        ),
+                        'voice': (
+                            "The cloud means giant data centres full of computers you rent over the internet. "
+                            "Microsoft has hundreds of them worldwide. "
+                            "You only pay for what you use!"
+                        ),
+                    },
+                    {
+                        'type': 'teach',
+                        'title': 'IaaS, PaaS, SaaS & Scaling',
+                        'content': (
+                            "Three layers of the cloud:\n\n"
+                            "  🧱 IaaS — Infrastructure as a Service\n"
+                            "       'Give me a virtual computer, I will install everything.'\n"
+                            "       Example: Azure Virtual Machines\n\n"
+                            "  🛠️ PaaS — Platform as a Service\n"
+                            "       'Give me a place to run my code — handle the rest.'\n"
+                            "       Example: Azure App Service, GitHub Pages\n\n"
+                            "  📦 SaaS — Software as a Service\n"
+                            "       'I just want to USE the app.'\n"
+                            "       Example: Office 365, Xbox Live, Spotify\n\n"
+                            "🌍 REGIONS & ZONES\n"
+                            "  Azure has REGIONS (UK South, East US, etc.).\n"
+                            "  Inside each region are AVAILABILITY ZONES — separate\n"
+                            "  buildings, so if one fails the others keep going.\n\n"
+                            "📈 SCALING\n"
+                            "  Scale UP   = make ONE server bigger (more RAM/CPU)\n"
+                            "  Scale OUT  = add MORE servers and share the work"
+                        ),
+                        'voice': (
+                            "IaaS gives you a virtual computer. PaaS gives you a place to run code. "
+                            "SaaS is software you just use, like Office or Spotify. "
+                            "Scale up means a bigger server, scale out means more servers."
+                        ),
+                    },
+                    {
+                        'type': 'example',
+                        'title': 'Round-Robin Load Balancer',
+                        'content': 'A load balancer shares requests across servers — let us simulate one!',
+                        'voice': 'A load balancer shares requests across servers. Let us simulate one!',
+                        'code': (
+                            'import itertools\n'
+                            '\n'
+                            'servers = ["web-01", "web-02", "web-03"]\n'
+                            'requests = [f"req#{n}" for n in range(1, 11)]\n'
+                            '\n'
+                            'rotation = itertools.cycle(servers)\n'
+                            'load = {s: 0 for s in servers}\n'
+                            '\n'
+                            'print("=== ⚖️  LOAD BALANCER ===\\n")\n'
+                            'for r in requests:\n'
+                            '    target = next(rotation)\n'
+                            '    load[target] += 1\n'
+                            '    print(f"  {r:8} -> {target}")\n'
+                            '\n'
+                            'print("\\n--- Final load ---")\n'
+                            'for s, n in load.items():\n'
+                            '    bar = "█" * n\n'
+                            '    print(f"  {s}: {bar} ({n})")\n'
+                            '\n'
+                            'print("\\nNotice how the work is shared evenly! 🎯")'
+                        ),
+                        'expected_output': None,
+                    },
+                    {
+                        'type': 'exercise',
+                        'title': 'Cloud Resource Manager 💼',
+                        'content': (
+                            "Track a fleet of cloud resources!\n\n"
+                            "Each resource has a name, type ('vm' or 'storage'), and\n"
+                            "an hourly cost. Build a CloudAccount class with:\n"
+                            "  • add(resource)         — add to the list\n"
+                            "  • total_per_hour()      — sum of all costs\n"
+                            "  • monthly_cost()        — hourly * 24 * 30\n"
+                            "  • by_type()             — dict {type: count}\n\n"
+                            "Then use it on the resources list and print a summary.\n"
+                            "Complete the TODOs!"
+                        ),
+                        'voice': (
+                            "Build a cloud account class to track virtual machines and storage. "
+                            "Calculate hourly and monthly costs, and group by type."
+                        ),
+                        'starter_code': (
+                            'class CloudAccount:\n'
+                            '    def __init__(self, owner):\n'
+                            '        self.owner = owner\n'
+                            '        self.resources = []\n'
+                            '\n'
+                            '    def add(self, resource):\n'
+                            '        # TODO: append resource to self.resources\n'
+                            '        pass\n'
+                            '\n'
+                            '    def total_per_hour(self):\n'
+                            '        # TODO: return sum of r["cost"] for all resources\n'
+                            '        return 0.0\n'
+                            '\n'
+                            '    def monthly_cost(self):\n'
+                            '        # TODO: hourly * 24 * 30\n'
+                            '        return 0.0\n'
+                            '\n'
+                            '    def by_type(self):\n'
+                            '        # TODO: return dict {type: count}\n'
+                            '        return {}\n'
+                            '\n'
+                            '\n'
+                            'resources = [\n'
+                            '    {"name": "web-vm-01",   "type": "vm",      "cost": 0.20},\n'
+                            '    {"name": "web-vm-02",   "type": "vm",      "cost": 0.20},\n'
+                            '    {"name": "db-vm-01",    "type": "vm",      "cost": 0.50},\n'
+                            '    {"name": "blob-store",  "type": "storage", "cost": 0.05},\n'
+                            '    {"name": "backup",      "type": "storage", "cost": 0.03},\n'
+                            ']\n'
+                            '\n'
+                            'account = CloudAccount("Toby")\n'
+                            'for r in resources:\n'
+                            '    account.add(r)\n'
+                            '\n'
+                            'print(f"=== ☁️  Cloud Account: {account.owner} ===")\n'
+                            'print(f"Resources: {len(account.resources)}")\n'
+                            'print(f"By type:   {account.by_type()}")\n'
+                            'print(f"Per hour:  £{account.total_per_hour():.2f}")\n'
+                            'print(f"Per month: £{account.monthly_cost():.2f}")'
+                        ),
+                        'expected_output': None,
+                        'hints': [
+                            'add: self.resources.append(resource)',
+                            'total_per_hour: return sum(r["cost"] for r in self.resources)',
+                            'by_type: counts = {}; for r in self.resources: counts[r["type"]] = counts.get(r["type"], 0) + 1; return counts',
+                        ],
+                    },
+                    {
+                        'type': 'quiz',
+                        'title': 'SaaS Quiz',
+                        'question': 'What does SaaS stand for?',
+                        'voice': 'Quiz! What does SaaS stand for?',
+                        'options': [
+                            'Server and a Storage',
+                            'Software as a Service',
+                            'Speed and Scale',
+                            'Secure Access System',
+                        ],
+                        'answer': 1,
+                        'explanation': (
+                            "SaaS = Software as a Service. You just USE the app — "
+                            "Office 365, Spotify, Xbox Live. Microsoft handles the servers, "
+                            "updates, and storage for you."
+                        ),
+                        'explanation_voice': (
+                            "SaaS is Software as a Service — apps like Office 365 or Spotify "
+                            "where you just use the software."
+                        ),
+                    },
+                ],
+            },
+            # ---- Lesson 2: Azure Services Tour ----
+            {
+                'id': 't_m9_l2',
+                'title': 'Azure Services Tour',
+                'icon': '🧭',
+                'xp': 125,
+                'steps': [
+                    {
+                        'type': 'story',
+                        'title': "Dad's Job: Supercomputers in Azure! 🌦️",
+                        'content': (
+                            "Agent Toby — fun fact: your dad Francis manages\n"
+                            "SUPERCOMPUTERS running in Azure for the Met Office!\n\n"
+                            "Those supercomputers crunch trillions of numbers every\n"
+                            "day to predict the British weather — rain, snow, storms,\n"
+                            "and the forecast you see on TV. 📺☔\n\n"
+                            "It is real-world cloud computing at MASSIVE scale:\n"
+                            "  🌬️  Petabytes of weather data\n"
+                            "  🧮  Tens of thousands of CPU cores\n"
+                            "  🛰️  Data from satellites, radar, and weather balloons\n\n"
+                            "Today you tour the Azure services that make it possible. 🚀"
+                        ),
+                        'voice': (
+                            "Your dad Francis manages supercomputers in Azure for the Met Office "
+                            "to forecast British weather! Tens of thousands of cores crunching petabytes of data. "
+                            "Today you tour the services that make it possible."
+                        ),
+                    },
+                    {
+                        'type': 'teach',
+                        'title': 'The Azure Service Menu',
+                        'content': (
+                            "Compute (where code runs):\n"
+                            "  🖥️  Virtual Machines     — full computer in the cloud\n"
+                            "  🌐  App Service          — host a web app, no server admin\n"
+                            "  ⚡  Functions            — serverless: code runs on events\n"
+                            "  🐳  Container Apps       — run Docker containers easily\n\n"
+                            "Storage & data:\n"
+                            "  💾  Blob Storage         — files, images, backups\n"
+                            "  🌍  Cosmos DB            — global NoSQL database\n"
+                            "  🗃️  Azure SQL            — managed SQL database\n\n"
+                            "Smart stuff:\n"
+                            "  🤖  AI Services          — vision, speech, language APIs\n"
+                            "  📊  Synapse / Fabric     — analytics on huge data\n\n"
+                            "When to use which?\n"
+                            "  • A simple web app           ➜ App Service\n"
+                            "  • A scheduled tiny script    ➜ Functions\n"
+                            "  • Need full OS control       ➜ Virtual Machines\n"
+                            "  • Photos & files             ➜ Blob Storage\n"
+                            "  • Global, fast database      ➜ Cosmos DB"
+                        ),
+                        'voice': (
+                            "Azure has services for compute, storage, and smart AI. "
+                            "Use App Service for web apps, Functions for tiny scripts, "
+                            "Blob Storage for files, and Cosmos DB for global databases."
+                        ),
+                    },
+                    {
+                        'type': 'example',
+                        'title': 'Serverless Functions Simulator',
+                        'content': 'Azure Functions run code when an event happens. Let us pretend!',
+                        'voice': 'Azure Functions run code when an event happens. Let us pretend!',
+                        'code': (
+                            'def on_image_uploaded(event):\n'
+                            '    return f"🖼️  Made thumbnail for {event[\'file\']}"\n'
+                            '\n'
+                            'def on_user_signup(event):\n'
+                            '    return f"📧 Sent welcome email to {event[\'email\']}"\n'
+                            '\n'
+                            'def on_order_placed(event):\n'
+                            '    return f"💳 Charged £{event[\'total\']} for order {event[\'id\']}"\n'
+                            '\n'
+                            'functions = {\n'
+                            '    "image.uploaded": on_image_uploaded,\n'
+                            '    "user.signup":    on_user_signup,\n'
+                            '    "order.placed":   on_order_placed,\n'
+                            '}\n'
+                            '\n'
+                            'events = [\n'
+                            '    {"name": "user.signup",    "email": "toby@kids.code"},\n'
+                            '    {"name": "image.uploaded", "file":  "cat.jpg"},\n'
+                            '    {"name": "order.placed",   "id":    1042, "total": 19.99},\n'
+                            '    {"name": "user.signup",    "email": "lara@kids.code"},\n'
+                            ']\n'
+                            '\n'
+                            'print("=== ⚡ Azure Functions (simulated) ===\\n")\n'
+                            'for ev in events:\n'
+                            '    fn = functions.get(ev["name"])\n'
+                            '    if fn:\n'
+                            '        print(f"event {ev[\'name\']:16} -> {fn(ev)}")\n'
+                            '    else:\n'
+                            '        print(f"event {ev[\'name\']:16} -> (no handler)")\n'
+                            '\n'
+                            'print("\\n💡 No servers to manage — just functions on events!")'
+                        ),
+                        'expected_output': None,
+                    },
+                    {
+                        'type': 'exercise',
+                        'title': 'Design a Cloud Architecture 🏗️',
+                        'content': (
+                            "An online comic-book site has these requirements:\n\n"
+                            "  • Stores comic page images       (lots of files)\n"
+                            "  • Members log in and read comics  (web app)\n"
+                            "  • Sends email when new issue out  (small event-driven script)\n"
+                            "  • Recommends comics by AI         (AI Service)\n"
+                            "  • Stores user library globally    (NoSQL DB)\n\n"
+                            "For each requirement, pick the BEST Azure service from\n"
+                            "azure_catalog and add it to the architecture list.\n"
+                            "Then total up the monthly cost. Complete the TODOs!"
+                        ),
+                        'voice': (
+                            "Design a cloud architecture for an online comic site. "
+                            "Pick the right Azure service for each requirement, "
+                            "and total up the monthly cost."
+                        ),
+                        'starter_code': (
+                            'azure_catalog = {\n'
+                            '    "App Service":     {"purpose": "host web apps",        "monthly": 55},\n'
+                            '    "Functions":       {"purpose": "event-driven code",    "monthly": 5},\n'
+                            '    "Blob Storage":    {"purpose": "store files/images",   "monthly": 20},\n'
+                            '    "Cosmos DB":       {"purpose": "global NoSQL DB",      "monthly": 60},\n'
+                            '    "AI Services":     {"purpose": "ready-made AI APIs",   "monthly": 30},\n'
+                            '    "Virtual Machine": {"purpose": "full server",          "monthly": 90},\n'
+                            '}\n'
+                            '\n'
+                            'requirements = [\n'
+                            '    "Store comic page images",\n'
+                            '    "Members log in and read comics (web app)",\n'
+                            '    "Send email when a new issue is out",\n'
+                            '    "Recommend comics with AI",\n'
+                            '    "Store user library globally",\n'
+                            ']\n'
+                            '\n'
+                            '# TODO: for each requirement, append (requirement, service_name) to architecture\n'
+                            'architecture = []\n'
+                            '\n'
+                            'print("=== 🏗️  Comic Site Architecture ===\\n")\n'
+                            'total = 0\n'
+                            'for req, service in architecture:\n'
+                            '    info = azure_catalog[service]\n'
+                            '    total += info["monthly"]\n'
+                            '    print(f"  {req}")\n'
+                            '    print(f"    -> {service} ({info[\'purpose\']}) £{info[\'monthly\']}/mo")\n'
+                            '\n'
+                            'print(f"\\n💷 Total monthly cost: £{total}")'
+                        ),
+                        'expected_output': None,
+                        'hints': [
+                            'Pictures = "Blob Storage", web app = "App Service".',
+                            'Email on event = "Functions". Recommendations = "AI Services".',
+                            'Global library = "Cosmos DB". Add tuples like ("Store comic page images", "Blob Storage").',
+                        ],
+                    },
+                    {
+                        'type': 'quiz',
+                        'title': 'Serverless Quiz',
+                        'question': 'Which Azure service runs your code without you managing any servers?',
+                        'voice': 'Quiz! Which Azure service runs code without managing any servers?',
+                        'options': [
+                            'Virtual Machines',
+                            'Cosmos DB',
+                            'Functions',
+                            'Blob Storage',
+                        ],
+                        'answer': 2,
+                        'explanation': (
+                            "Azure Functions is serverless — you upload a function and "
+                            "it runs whenever an event triggers it. Azure handles everything: "
+                            "scaling, servers, patching, the lot."
+                        ),
+                        'explanation_voice': (
+                            "Azure Functions is serverless. "
+                            "You write a function and Azure runs it on events."
+                        ),
+                    },
+                ],
+            },
+        ],
+    },
 
-    _stub_module(
-        't_m10', 'Introduction to AI & ML 🤖', '🤖',
-        'Discover artificial intelligence and build your first machine learning model.',
-        'AI Explorer', '🤖', '#FF7675',
-        ['t_m1', 't_m2', 't_m3', 't_m4', 't_m5', 't_m6', 't_m7'],
-        (
-            "Artificial Intelligence is all around us!\n\n"
-            "  🎵  Spotify recommending songs\n"
-            "  🎬  Netflix suggesting films\n"
-            "  📸  Your phone recognising faces\n"
-            "  🗣️  Siri and Alexa understanding speech\n\n"
-            "Machine Learning is how computers LEARN from data:\n"
-            "  1. Collect data (examples)\n"
-            "  2. Train a model (find patterns)\n"
-            "  3. Use the model (make predictions)\n\n"
-            "You will build real ML models with scikit-learn!\n\n"
-            "⚠️  AI Ethics: with great power comes great responsibility.\n"
-            "    We will always use AI responsibly and fairly."
-        ),
-        (
-            "Artificial intelligence is all around us — in music apps, streaming services, "
-            "and voice assistants. Machine learning is how computers learn from data. "
-            "You will build real models with scikit-learn. "
-            "We will also cover AI ethics — using AI responsibly. "
-            "This module is coming soon!"
-        ),
-        ['What is AI? History and concepts',
-         'Machine learning vs traditional programming',
-         'Types of ML: supervised, unsupervised, reinforcement',
-         'Your first classifier with scikit-learn',
-         'Neural networks — how they work',
-         'Using Azure AI APIs (vision, language)',
-         'AI ethics and responsible use']
-    ),
+    # ================================================================
+    # MODULE 10: Introduction to AI & ML
+    # ================================================================
+    {
+        'id': 't_m10',
+        'title': 'Introduction to AI & ML 🤖',
+        'icon': '🤖',
+        'description': 'Discover how machines learn — build a classifier from scratch and explore AI ethics.',
+        'badge': 'AI Explorer',
+        'badge_icon': '🤖',
+        'color': '#FF7675',
+        'prerequisite_modules': ['t_m1', 't_m2', 't_m3', 't_m4', 't_m5', 't_m6', 't_m7'],
+        'lessons': [
+            # ---- Lesson 1: What is AI? ----
+            {
+                'id': 't_m10_l1',
+                'title': 'What is AI?',
+                'icon': '🤖',
+                'xp': 125,
+                'steps': [
+                    {
+                        'type': 'story',
+                        'title': 'AI is Already Everywhere 👀',
+                        'content': (
+                            "Agent Toby — you have used AI today and not even noticed!\n\n"
+                            "  🎵 Spotify picked your next song using AI\n"
+                            "  🎬 Netflix suggested that show with AI\n"
+                            "  📸 Your phone unlocked your face with AI\n"
+                            "  🗣️  Siri / Alexa understood your voice with AI\n"
+                            "  💬 ChatGPT answered questions with AI\n"
+                            "  📧 Gmail sorted spam from real email with AI\n\n"
+                            "But what IS AI? And how is it different from regular code?\n\n"
+                            "Regular code:   YOU write the rules.\n"
+                            "AI / ML code:   the COMPUTER finds the rules from data.\n\n"
+                            "Today you learn the language and build your first AI! 🚀"
+                        ),
+                        'voice': (
+                            "AI is everywhere — Spotify, Netflix, your phone, voice assistants. "
+                            "Regular code follows rules you write. "
+                            "AI finds rules from data. Today you build your first AI!"
+                        ),
+                    },
+                    {
+                        'type': 'teach',
+                        'title': 'AI vs ML vs Deep Learning',
+                        'content': (
+                            "🟦 AI — Artificial Intelligence (the BIG idea)\n"
+                            "    Any computer doing 'smart' things humans do.\n\n"
+                            "🟩 ML — Machine Learning (a TYPE of AI)\n"
+                            "    Computers learn patterns from DATA, not rules.\n\n"
+                            "🟪 Deep Learning (a TYPE of ML)\n"
+                            "    Uses neural networks with many layers — powers\n"
+                            "    image recognition, ChatGPT, self-driving cars.\n\n"
+                            "Key vocabulary:\n"
+                            "  📊 DATA      — examples to learn from\n"
+                            "  🏷️  LABELS    — the right answer for each example\n"
+                            "  🧩 FEATURES  — measurable things about each example\n"
+                            "                 (height, colour, word counts...)\n"
+                            "  🧠 MODEL     — what the computer learns\n\n"
+                            "Two main flavours of ML:\n"
+                            "  ✅ Supervised   — data has labels (cat/dog photos)\n"
+                            "  ❓ Unsupervised — no labels, find patterns yourself\n\n"
+                            "And two task types:\n"
+                            "  🏷️  Classification — pick a category (spam? not spam?)\n"
+                            "  📈 Regression     — predict a number (house price)"
+                        ),
+                        'voice': (
+                            "AI is the big idea. ML is computers learning from data. "
+                            "Deep learning uses neural networks. "
+                            "Supervised learning uses labelled examples. "
+                            "Classification picks a category, regression predicts a number."
+                        ),
+                    },
+                    {
+                        'type': 'example',
+                        'title': 'A Tiny Rule-Based "AI"',
+                        'content': 'Before we use real ML, here is a hand-coded classifier — old-school AI!',
+                        'voice': 'Before real ML, here is a hand-coded classifier — old-school AI!',
+                        'code': (
+                            'def classify_animal(features):\n'
+                            '    legs   = features["legs"]\n'
+                            '    flies  = features["flies"]\n'
+                            '    swims  = features["swims"]\n'
+                            '    fur    = features["fur"]\n'
+                            '\n'
+                            '    if legs == 0 and swims:\n'
+                            '        return "fish 🐟"\n'
+                            '    if flies and legs == 2:\n'
+                            '        return "bird 🐦"\n'
+                            '    if legs == 4 and fur:\n'
+                            '        return "mammal 🐶"\n'
+                            '    if legs == 6:\n'
+                            '        return "insect 🐜"\n'
+                            '    return "unknown 🤷"\n'
+                            '\n'
+                            'animals = [\n'
+                            '    {"name": "Goldfish", "legs": 0, "flies": False, "swims": True,  "fur": False},\n'
+                            '    {"name": "Sparrow",  "legs": 2, "flies": True,  "swims": False, "fur": False},\n'
+                            '    {"name": "Dog",      "legs": 4, "flies": False, "swims": True,  "fur": True},\n'
+                            '    {"name": "Ant",      "legs": 6, "flies": False, "swims": False, "fur": False},\n'
+                            ']\n'
+                            '\n'
+                            'for a in animals:\n'
+                            '    label = classify_animal(a)\n'
+                            '    print(f"{a[\'name\']:10} -> {label}")\n'
+                            '\n'
+                            'print("\\n💡 Rules work — but real ML LEARNS the rules from data!")'
+                        ),
+                        'expected_output': None,
+                    },
+                    {
+                        'type': 'exercise',
+                        'title': 'Spam Detector 📧',
+                        'content': (
+                            "Build a spam detector using KEYWORD SCORING.\n\n"
+                            "  • Each spam keyword adds points to a 'spam_score'\n"
+                            "  • If spam_score >= 3, label as spam\n"
+                            "  • Otherwise, label as ham (real email)\n\n"
+                            "Lower-case the message before checking, so 'WIN' and\n"
+                            "'win' both count. Print every email's score and label,\n"
+                            "then print accuracy at the end."
+                        ),
+                        'voice': (
+                            "Build a spam detector. Score each email by counting spam keywords. "
+                            "If the score is 3 or more, mark it as spam. "
+                            "Then calculate accuracy."
+                        ),
+                        'starter_code': (
+                            'spam_keywords = ["free", "win", "winner", "prize", "click", "urgent", "money", "buy now"]\n'
+                            '\n'
+                            'emails = [\n'
+                            '    ("Free prize! Click now to win money!",     "spam"),\n'
+                            '    ("Hi Toby, fancy a kickabout this weekend?", "ham"),\n'
+                            '    ("URGENT: claim your prize, click here!",    "spam"),\n'
+                            '    ("Mum: dinner is ready :)",                  "ham"),\n'
+                            '    ("Buy now and win free money!!!",            "spam"),\n'
+                            '    ("Maths homework due Friday",                "ham"),\n'
+                            ']\n'
+                            '\n'
+                            'def classify(message):\n'
+                            '    text = message.lower()\n'
+                            '    # TODO: count how many spam_keywords appear in text\n'
+                            '    score = 0\n'
+                            '\n'
+                            '    # TODO: if score >= 3 return "spam", else "ham"\n'
+                            '    return "ham"\n'
+                            '\n'
+                            'correct = 0\n'
+                            'print("=== 📧 SPAM DETECTOR ===\\n")\n'
+                            'for msg, truth in emails:\n'
+                            '    guess = classify(msg)\n'
+                            '    tick = "✅" if guess == truth else "❌"\n'
+                            '    if guess == truth:\n'
+                            '        correct += 1\n'
+                            '    print(f"  {tick}  guess={guess:4}  truth={truth:4}  | {msg}")\n'
+                            '\n'
+                            'accuracy = correct / len(emails) * 100\n'
+                            'print(f"\\nAccuracy: {accuracy:.1f}% ({correct}/{len(emails)})")'
+                        ),
+                        'expected_output': None,
+                        'hints': [
+                            'Count score: for kw in spam_keywords: if kw in text: score += 1',
+                            'Return: return "spam" if score >= 3 else "ham"',
+                            'Try lowering the threshold or adding more keywords to improve accuracy.',
+                        ],
+                    },
+                    {
+                        'type': 'quiz',
+                        'title': 'AI vs ML Quiz',
+                        'question': 'What is the key difference between AI and Machine Learning?',
+                        'voice': 'Quiz! What is the key difference between AI and Machine Learning?',
+                        'options': [
+                            'AI and ML are exactly the same thing',
+                            'ML is the big idea; AI is one type of ML',
+                            'AI is the big idea; ML is one type of AI where computers learn rules from data',
+                            'AI uses Python; ML uses C++',
+                        ],
+                        'answer': 2,
+                        'explanation': (
+                            "AI is the broad goal — making computers act intelligently. "
+                            "Machine Learning is one approach where the computer LEARNS the rules "
+                            "from examples instead of being given them by a programmer."
+                        ),
+                        'explanation_voice': (
+                            "AI is the big idea — computers acting intelligently. "
+                            "ML is one type of AI where computers learn rules from data."
+                        ),
+                    },
+                ],
+            },
+            # ---- Lesson 2: Your First ML Model ----
+            {
+                'id': 't_m10_l2',
+                'title': 'Your First ML Model',
+                'icon': '🧠',
+                'xp': 175,
+                'steps': [
+                    {
+                        'type': 'story',
+                        'title': 'Birds of a Feather 🐦',
+                        'content': (
+                            "Agent Toby — here is the simplest ML algorithm in the world:\n\n"
+                            "       'BIRDS OF A FEATHER FLOCK TOGETHER.'\n\n"
+                            "It is called K-Nearest Neighbours (KNN). To classify\n"
+                            "something new, you look at the K closest known examples\n"
+                            "and pick the most common label among them.\n\n"
+                            "  🍎 If 3 of the 3 nearest fruits are apples → APPLE!\n"
+                            "  🍌 If 2 of 3 nearest are bananas         → BANANA!\n\n"
+                            "Closeness is just DISTANCE. For points (x, y):\n\n"
+                            "    dist = sqrt( (x1-x2)² + (y1-y2)² )\n\n"
+                            "Today you implement KNN from scratch — no libraries,\n"
+                            "just Python and maths. Real machine learning! 🚀"
+                        ),
+                        'voice': (
+                            "K nearest neighbours is the simplest ML algorithm. "
+                            "To classify something new, find the closest known examples and copy their label. "
+                            "Today you build it from scratch with just Python and maths!"
+                        ),
+                    },
+                    {
+                        'type': 'teach',
+                        'title': 'KNN, Accuracy & Ethics',
+                        'content': (
+                            "Steps of KNN:\n"
+                            "  1. Have TRAINING data: list of (features, label).\n"
+                            "  2. For a NEW item, compute distance to each training point.\n"
+                            "  3. Sort by distance, take the K closest (e.g. K=3).\n"
+                            "  4. Vote — the most common label wins.\n\n"
+                            "TRAINING vs TESTING:\n"
+                            "  • Train on some data (it learns).\n"
+                            "  • Test on DIFFERENT data (we check it).\n"
+                            "  • ACCURACY = correct predictions / total predictions\n\n"
+                            "🚨 OVERFITTING — model memorises training data,\n"
+                            "    fails on new data. Like cramming for one exam.\n\n"
+                            "⚖️  BIAS & FAIRNESS\n"
+                            "    If your data only has examples of ONE kind of person,\n"
+                            "    the model will be unfair to others.\n"
+                            "    Real example: face-recognition systems have failed\n"
+                            "    on darker skin tones because the training data was\n"
+                            "    mostly lighter skin tones.\n\n"
+                            "    👉 DIVERSE training data = fairer AI.\n"
+                            "    👉 People should be able to question AI decisions.\n"
+                            "    👉 Powerful tools need responsible use."
+                        ),
+                        'voice': (
+                            "KNN finds the closest examples and votes on the label. "
+                            "Always test on different data than you train on. "
+                            "Diverse training data makes AI fairer for everyone."
+                        ),
+                    },
+                    {
+                        'type': 'example',
+                        'title': 'KNN From Scratch',
+                        'content': 'A working KNN classifier in pure Python — no libraries!',
+                        'voice': 'A working KNN classifier in pure Python — no libraries!',
+                        'code': (
+                            'import math\n'
+                            '\n'
+                            'training = [\n'
+                            '    ((1, 1), "red"),\n'
+                            '    ((2, 1), "red"),\n'
+                            '    ((1, 2), "red"),\n'
+                            '    ((8, 8), "blue"),\n'
+                            '    ((9, 8), "blue"),\n'
+                            '    ((8, 9), "blue"),\n'
+                            ']\n'
+                            '\n'
+                            'def distance(a, b):\n'
+                            '    return math.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2)\n'
+                            '\n'
+                            'def knn(point, k=3):\n'
+                            '    scored = [(distance(point, p), label) for p, label in training]\n'
+                            '    scored.sort()\n'
+                            '    top = scored[:k]\n'
+                            '    votes = {}\n'
+                            '    for _, label in top:\n'
+                            '        votes[label] = votes.get(label, 0) + 1\n'
+                            '    return max(votes, key=votes.get), top\n'
+                            '\n'
+                            'tests = [(2, 2), (8, 7), (5, 5)]\n'
+                            'for t in tests:\n'
+                            '    label, neighbours = knn(t, k=3)\n'
+                            '    print(f"\\nPoint {t} -> predicted: {label}")\n'
+                            '    for d, lab in neighbours:\n'
+                            '        print(f"  neighbour distance={d:.2f}  label={lab}")'
+                        ),
+                        'expected_output': None,
+                    },
+                    {
+                        'type': 'exercise',
+                        'title': 'Fruit Classifier 🍎🍌',
+                        'content': (
+                            "Build a KNN fruit classifier!\n\n"
+                            "Each fruit has features (weight_g, redness_0_to_10).\n"
+                            "  • Apples are heavy and red\n"
+                            "  • Bananas are lighter and not red\n\n"
+                            "Implement classify(point, k=3):\n"
+                            "  1. Compute distance from point to each TRAIN fruit\n"
+                            "  2. Sort by distance, take the k closest\n"
+                            "  3. Return the most common label\n\n"
+                            "Then classify every TEST fruit and print accuracy.\n"
+                            "Complete the TODOs!"
+                        ),
+                        'voice': (
+                            "Build a fruit classifier with k nearest neighbours. "
+                            "Find the closest training fruits, vote on the label, "
+                            "and print the accuracy on the test set."
+                        ),
+                        'starter_code': (
+                            'import math\n'
+                            '\n'
+                            'TRAIN = [\n'
+                            '    ((150, 8), "apple"),\n'
+                            '    ((170, 9), "apple"),\n'
+                            '    ((160, 7), "apple"),\n'
+                            '    ((140, 8), "apple"),\n'
+                            '    ((120, 1), "banana"),\n'
+                            '    ((130, 2), "banana"),\n'
+                            '    ((125, 1), "banana"),\n'
+                            '    ((115, 2), "banana"),\n'
+                            ']\n'
+                            '\n'
+                            'TEST = [\n'
+                            '    ((155, 8), "apple"),\n'
+                            '    ((118, 1), "banana"),\n'
+                            '    ((165, 9), "apple"),\n'
+                            '    ((128, 2), "banana"),\n'
+                            ']\n'
+                            '\n'
+                            'def distance(a, b):\n'
+                            '    # TODO: euclidean distance between two (x, y) tuples\n'
+                            '    return 0.0\n'
+                            '\n'
+                            'def classify(point, k=3):\n'
+                            '    # TODO: build list of (distance, label) for every TRAIN fruit\n'
+                            '    scored = []\n'
+                            '\n'
+                            '    # TODO: sort scored, take first k\n'
+                            '    top = scored[:k]\n'
+                            '\n'
+                            '    # TODO: count votes for each label, return the winner\n'
+                            '    return "?"\n'
+                            '\n'
+                            'correct = 0\n'
+                            'print("=== 🍎🍌 FRUIT CLASSIFIER ===\\n")\n'
+                            'for features, truth in TEST:\n'
+                            '    guess = classify(features, k=3)\n'
+                            '    tick = "✅" if guess == truth else "❌"\n'
+                            '    if guess == truth:\n'
+                            '        correct += 1\n'
+                            '    print(f"  {tick}  features={features}  guess={guess:6}  truth={truth}")\n'
+                            '\n'
+                            'accuracy = correct / len(TEST) * 100\n'
+                            'print(f"\\nAccuracy: {accuracy:.1f}% ({correct}/{len(TEST)})")'
+                        ),
+                        'expected_output': None,
+                        'hints': [
+                            'distance: return math.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2)',
+                            'scored = [(distance(point, p), label) for p, label in TRAIN]; scored.sort()',
+                            'votes = {}; for _, lab in top: votes[lab] = votes.get(lab, 0) + 1; return max(votes, key=votes.get)',
+                        ],
+                    },
+                    {
+                        'type': 'quiz',
+                        'title': 'AI Fairness Quiz',
+                        'question': 'Why is DIVERSE training data important for fair AI?',
+                        'voice': 'Quiz! Why is diverse training data important for fair AI?',
+                        'options': [
+                            'It does not matter — AI is always fair',
+                            'Bigger files train faster',
+                            'A model only learns patterns it sees, so narrow data leads to AI that fails or is unfair to under-represented groups',
+                            'Diverse data makes the program shorter',
+                        ],
+                        'answer': 2,
+                        'explanation': (
+                            "Models only learn from what they see. If training data only "
+                            "represents one group of people, the model will be less accurate — "
+                            "and unfair — for everyone else. Diverse, representative data is a "
+                            "core part of building responsible, ethical AI."
+                        ),
+                        'explanation_voice': (
+                            "Models only learn from what they see. "
+                            "If training data is narrow, the AI is unfair to everyone else. "
+                            "Diverse data is essential for responsible AI."
+                        ),
+                    },
+                ],
+            },
+        ],
+    },
 
     # ================================================================
     # MODULE 11: Game Development (text-based)
